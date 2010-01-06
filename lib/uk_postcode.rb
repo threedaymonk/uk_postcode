@@ -24,12 +24,6 @@ class UKPostcode
     raw.match(RE_FULL)
   end
 
-  # Returns true if the postcode is a valid outcode (e.g. W1A)
-  #
-  def outcode?
-    !full? && raw.match(RE_OUTCODE_ONLY)
-  end
-
   # The left-hand part of the postcode, e.g. W1A 1AA -> W1A
   #
   def outcode

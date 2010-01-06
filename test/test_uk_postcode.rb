@@ -22,12 +22,6 @@ class UKPostcodeTest < Test::Unit::TestCase
       end
     end
 
-    should "not be outcodes" do
-      @samples.each do |sample|
-        assert !UKPostcode.new(sample).outcode?, "'#{sample}' should not be an outcode"
-      end
-    end
-
     should "all be full" do
       @samples.each do |sample|
         assert UKPostcode.new(sample).full?, "'#{sample}' should be full"
@@ -58,12 +52,6 @@ class UKPostcodeTest < Test::Unit::TestCase
       end
     end
 
-    should "not be outcodes" do
-      @samples.each do |sample|
-        assert !UKPostcode.new(sample).outcode?, "'#{sample}' should not be an outcode"
-      end
-    end
-
     should "all be full" do
       @samples.each do |sample|
         assert UKPostcode.new(sample).full?, "'#{sample}' should be full"
@@ -91,12 +79,6 @@ class UKPostcodeTest < Test::Unit::TestCase
     should "all be valid" do
       @samples.each do |sample|
         assert UKPostcode.new(sample).valid?, "'#{sample}' should be valid"
-      end
-    end
-
-    should "all be outcodes" do
-      @samples.each do |sample|
-        assert UKPostcode.new(sample).outcode?, "'#{sample}' should be an outcode"
       end
     end
 
@@ -153,10 +135,6 @@ class UKPostcodeTest < Test::Unit::TestCase
 
       should "not be full" do
         assert !@postcode.full?
-      end
-
-      should "not be an outcode" do
-        assert !@postcode.outcode?
       end
 
       should "return an empty string for to_str" do
