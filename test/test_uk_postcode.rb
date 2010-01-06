@@ -137,8 +137,40 @@ class UKPostcodeTest < Test::Unit::TestCase
     end
   end
 
-  should "not be valid if truncated" do
-    assert !UKPostcode.new("W1A 1A").valid?
+  { "when the postcode is blank" => "",
+    "when the incode is truncated" => "W1A 1A",
+    "when the outcode is truncated" => "W",
+    "when the postcode is invalid" => "ABC DEFG"
+  }.each do |desc, sample|
+    context desc do
+      setup do
+        @postcode = UKPostcode.new(sample)
+      end
+
+      should "not be valid" do
+        assert !@postcode.valid?
+      end
+
+      should "not be full" do
+        assert !@postcode.full?
+      end
+
+      should "not be an outcode" do
+        assert !@postcode.outcode?
+      end
+
+      should "return an empty string for to_str" do
+        assert_equal "", @postcode.to_str
+      end
+
+      should "return nil for outcode" do
+        assert_nil @postcode.outcode
+      end
+
+      should "return nil for incode" do
+        assert_nil @postcode.incode
+      end
+    end
   end
 
   context "when used as a string" do
