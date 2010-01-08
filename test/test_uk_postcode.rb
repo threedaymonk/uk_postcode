@@ -5,11 +5,12 @@ require "uk_postcode"
 
 class UKPostcodeTest < Test::Unit::TestCase
 
-  VALID_SAMPLES  = [ %w[A 9 9 AA], %w[A 99 9 AA], %w[AA 9 9 AA], %w[AA 99 9 AA], %w[A 9A 9 AA], %w[AA 9A 9 AA],
-                     %w[SW 1A 0 AA], %w[SW 1A 0 PW], %w[SW 1A 1 AA], %w[SW 1A 2 HQ], %w[W 1A 1 AA], %w[W 1A 1 AB],
-                     %w[N 81 1 ER], %w[EH 99 1 SP] ]
-  VALID_OUTCODES = VALID_SAMPLES.map{ |a,b,c,d| [a, b].join }
-  VALID_INCODES  = VALID_SAMPLES.map{ |a,b,c,d| [c, d].join }
+  VALID_SAMPLES  = [
+    %w[A   9 9 AA], %w[A  99 9 AA], %w[AA  9 9 AA], %w[AA 99 9 AA], %w[A  9A 9 AA],
+    %w[AA 9A 9 AA], %w[SW 1A 0 AA], %w[SW 1A 0 PW], %w[SW 1A 1 AA], %w[SW 1A 2 HQ],
+    %w[W  1A 1 AA], %w[W  1A 1 AB], %w[N  81 1 ER], %w[EH 99 1 SP], %w[CV  1 1 FL],
+    %w[EX  1 1 AE], %w[TQ  1 1 AG]
+  ]
 
   { "full samples with spaces"    => lambda{ |a,b,c,d| [[a, b, " ", c, d].join, [a, b, c, d]] },
     "full samples without spaces" => lambda{ |a,b,c,d| [[a, b, c, d].join, [a, b, c, d]] },
