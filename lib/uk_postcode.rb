@@ -1,46 +1,102 @@
 class UKPostcode
-  RE_OUTCODE      = /[A-Z]{1,2}[0-9R][0-9A-Z]?/
-  RE_INCODE       = /[0-9][ABD-HJLNP-UW-Z]{2}/
-  RE_OUTCODE_ONLY = /\A(#{RE_OUTCODE})\Z/
-  RE_FULL         = /\A(#{RE_OUTCODE}) ?(#{RE_INCODE})\Z/
+  #[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKPS-UW]) [0-9][ABD-HJLNP-UW-Z]{2})
+  RE_AREA         = /[A-PR-UWYZ]{1,2}/
+  RE_DISTRICT     = /[0-9IO][0-9A-HJKMNPR-YIO]?/
+  RE_SECTOR       = /[0-9IO]/
+  RE_UNIT         = /[ABD-HJLNPQ-Z10]{2}/
+  RE_OUTCODE_ONLY = /\A (#{RE_AREA}) (#{RE_DISTRICT}) \Z/x
+  RE_FULL         = /\A (#{RE_AREA}) (#{RE_DISTRICT}) \s?
+                        (#{RE_SECTOR}) (#{RE_UNIT})   \Z/x
 
   attr_reader :raw
 
   # Initialise a new UKPostcode instance from the given postcode string
   #
   def initialize(postcode_as_string)
-    @raw = postcode_as_string.upcase
+    @raw = postcode_as_string
   end
 
   # Returns true if the postcode is a valid full postcode (e.g. W1A 1AA) or outcode (e.g. W1A)
   #
   def valid?
-    raw.match(RE_FULL) || raw.match(RE_OUTCODE_ONLY)
+    !!outcode
   end
 
   # Returns true if the postcode is a valid full postcode (e.g. W1A 1AA)
   #
   def full?
-    raw.match(RE_FULL)
+    !!(outcode && incode)
   end
 
   # The left-hand part of the postcode, e.g. W1A 1AA -> W1A
   #
   def outcode
-    raw[RE_FULL, 1] || raw[RE_OUTCODE_ONLY]
+    area && district && [area, district].join
   end
 
   # The right-hand part of the postcode, e.g. W1A 1AA -> 1AA
   #
   def incode
-    raw[RE_FULL, 2]
+    sector && unit && [sector, unit].join
+  end
+
+  # The first part of the outcode, e.g. W1A 2AB -> W
+  #
+  def area
+    letters(parts[0])
+  end
+
+  # The second part of the outcode, e.g. W1A 2AB -> 1A
+  #
+  def district
+    digits(parts[1])
+  end
+
+  # The first part of the incode, e.g. W1A 2AB -> 2
+  #
+  def sector
+    digits(parts[2])
+  end
+
+  # The second part of the incode, e.g. W1A 2AB -> AB
+  #
+  def unit
+    letters(parts[3])
   end
 
   # Render the postcode as a normalised string, i.e. in upper case and with spacing.
   # Returns an empty string if the postcode is not valid.
   #
-  def to_str
+  def norm
     [outcode, incode].compact.join(" ")
   end
-  alias_method :to_s, :to_str
+  alias_method :normalise, :norm
+  alias_method :normalize, :norm
+
+  alias_method :to_s,   :raw
+  alias_method :to_str, :raw
+
+  def inspect(*args)
+    "<#{self.class.to_s} #{raw}>"
+  end
+
+private
+  def parts
+    if @matched
+      @parts
+    else
+      @matched = true
+      uraw = raw.upcase
+      m = uraw.match(RE_FULL) || uraw.match(RE_OUTCODE_ONLY) || []
+      @parts = (1..4).map{ |i| m[i] }
+    end
+  end
+
+  def letters(s)
+    s && s.tr("10", "IO")
+  end
+
+  def digits(s)
+    s && s.tr("IO", "10")
+  end
 end
