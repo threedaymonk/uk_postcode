@@ -26,7 +26,13 @@ Or of a partial postcode:
 
 Normalise postcodes:
 
-    UKPostcode.new("w1a1aa").to_str #=> "W1A 1AA"
+    UKPostcode.new("w1a1aa").norm #=> "W1A 1AA"
+
+Fix mistakes with IO/10:
+
+    pc = UKPostcode.new("WIA OAA")
+    pc.outcode #=> "W1A"
+    pc.incode  #=> "0AA"
 
 Gem?
 ----
