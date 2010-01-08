@@ -1,5 +1,4 @@
 class UKPostcode
-  #[A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKPS-UW]) [0-9][ABD-HJLNP-UW-Z]{2})
   RE_AREA         = /[A-PR-UWYZ][A-Z]?/
   RE_DISTRICT     = /[0-9IO][0-9A-HJKMNPR-YIO]?/
   RE_SECTOR       = /[0-9IO]/
