@@ -1,11 +1,13 @@
 class UKPostcode
-  RE_AREA         = /[A-PR-UWYZ][A-Z]?/
-  RE_DISTRICT     = /[0-9IO][0-9A-HJKMNPR-YIO]?/
-  RE_SECTOR       = /[0-9IO]/
-  RE_UNIT         = /[ABD-HJLNPQ-Z10]{2}/
-  RE_OUTCODE_ONLY = /\A (#{RE_AREA}) (#{RE_DISTRICT}) \Z/x
-  RE_FULL         = /\A (#{RE_AREA}) (#{RE_DISTRICT}) \s?
-                        (#{RE_SECTOR}) (#{RE_UNIT})   \Z/x
+  MATCH = /\A
+           ( [A-PR-UWYZ][A-Z]? )           # area
+           ( [0-9IO][0-9A-HJKMNPR-YIO]? )  # district
+           (?:
+             \s?
+             ( [0-9IO] )                   # sector
+             ( [ABD-HJLNPQ-Z10]{2} )       # unit
+                                     )?
+           \Z/x
 
   attr_reader :raw
 
@@ -85,9 +87,8 @@ private
       @parts
     else
       @matched = true
-      uraw = raw.upcase
-      m = uraw.match(RE_FULL) || uraw.match(RE_OUTCODE_ONLY) || []
-      @parts = (1..4).map{ |i| m[i] }
+      matches = raw.upcase.match(MATCH) || []
+      @parts = (1..4).map{ |i| matches[i] }
     end
   end
 
