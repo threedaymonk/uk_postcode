@@ -21,7 +21,7 @@ end
 
 spec = Gem::Specification.new do |s|
   s.name              = "uk_postcode"
-  s.version           = "0.0.1"
+  s.version           = "0.0.2"
   s.summary           = "UK postcode parsing and validation"
   s.author            = "Paul Battley"
   s.email             = "pbattley@gmail.com"
