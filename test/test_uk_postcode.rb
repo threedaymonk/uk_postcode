@@ -1,3 +1,4 @@
+# -*- coding: undecided -*-
 $:.unshift File.join(File.dirname(__FILE__), "..", "lib")
 require "test/unit"
 require "shoulda"
@@ -164,8 +165,12 @@ class UKPostcodeTest < Test::Unit::TestCase
   end
 
   context "when used as a string" do
-    should "normalise spacing" do
+    should "normalise spacing when no spacing has been used in the input" do
       assert_equal "W1A 1AA", UKPostcode.new("W1A1AA").norm
+    end
+
+    should "normalise spacing when too much spacing has been used in the input" do
+      assert_equal "W1A 1AA", UKPostcode.new("W1A  1AA").norm
     end
 
     should "convert case" do
@@ -174,6 +179,10 @@ class UKPostcodeTest < Test::Unit::TestCase
 
     should "ignore a missing incode" do
       assert_equal "W1A", UKPostcode.new("W1A").norm
+    end
+
+    should "trim whitespace from start and end of the string" do
+      assert_equal "W1A 1AA", UKPostcode.new(" W1A 1AA ").norm
     end
   end
 

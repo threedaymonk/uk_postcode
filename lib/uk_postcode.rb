@@ -1,12 +1,14 @@
 class UKPostcode
   MATCH = /\A
+           \s*
            ( [A-PR-UWYZ01][A-Z01]? )       # area
            ( [0-9IO][0-9A-HJKMNPR-YIO]? )  # district
            (?:
-             \s?
+             \s*
              ( [0-9IO] )                   # sector
              ( [ABD-HJLNPQ-Z10]{2} )       # unit
                                      )?
+           \s*
            \Z/x
 
   attr_reader :raw
