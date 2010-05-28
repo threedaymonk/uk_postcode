@@ -210,4 +210,24 @@ class UKPostcodeTest < Test::Unit::TestCase
       end
     end
   end
+
+  context "when digits are used instead of letters" do
+    context "in a full postcode" do
+      setup do 
+        @postcode = UKPostcode.new("0X1 0AB")
+      end
+
+      should "be valid" do
+        assert @postcode.valid?
+      end
+
+      should "be full" do
+        assert @postcode.full?
+      end
+
+      should "normalise to letters" do
+        assert_equal "OX1 0AB", @postcode.norm
+      end
+    end
+  end
 end

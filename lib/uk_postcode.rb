@@ -1,6 +1,6 @@
 class UKPostcode
   MATCH = /\A
-           ( [A-PR-UWYZ][A-Z]? )           # area
+           ( [A-PR-UWYZ01][A-Z01]? )       # area
            ( [0-9IO][0-9A-HJKMNPR-YIO]? )  # district
            (?:
              \s?
