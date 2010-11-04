@@ -222,7 +222,7 @@ class UKPostcodeTest < Test::Unit::TestCase
 
   context "when digits are used instead of letters" do
     context "in a full postcode" do
-      setup do 
+      setup do
         @postcode = UKPostcode.new("0X1 0AB")
       end
 
