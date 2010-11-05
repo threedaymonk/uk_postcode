@@ -18,9 +18,12 @@ class UKPostcodeTest < Test::Unit::TestCase
       should "be valid for each line in sample file" do
         @file.each_line do |line|
           next if line =~ /^#|^$/
-          sample = line.chomp.sub(/\s+/, "")
-          postcode = UKPostcode.new(sample)
-          assert postcode.valid?, "'#{sample}' should be valid"
+          outcode = line[0,4].strip
+          incode  = line[4,4].strip
+          postcode = UKPostcode.new(outcode + incode)
+          assert postcode.valid?, "'#{outcode} #{incode}' should be valid"
+          assert_equal outcode, postcode.outcode, "incorrect outcode for '#{outcode} #{incode}'"
+          assert_equal incode,  postcode.incode,  "incorrect incode for '#{outcode} #{incode}'"
         end
       end
     end

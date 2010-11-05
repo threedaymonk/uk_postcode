@@ -1,15 +1,14 @@
 class UKPostcode
-  MATCH = /\A
-           \s*
-           ( [A-PR-UWYZ01][A-Z01]? )       # area
-           ( [0-9IO][0-9A-HJKMNPR-YIO]? )  # district
-           (?:
-             \s*
-             ( [0-9IO] )                   # sector
-             ( [ABD-HJLNPQ-Z10]{2} )       # unit
-                                     )?
-           \s*
-           \Z/x
+  MATCH = /\A \s* (?:
+             ( G[I1]R \s* [0O]AA )           # special postcode
+           |
+             ( [A-PR-UWYZ01][A-Z01]? )       # area
+             ( [0-9IO][0-9A-HJKMNPR-YIO]? )  # district
+             (?: \s*
+               ( [0-9IO] )                   # sector
+               ( [ABD-HJLNPQ-Z10]{2} )       # unit
+             )?
+           ) \s* \Z/x
 
   attr_reader :raw
 
@@ -46,25 +45,25 @@ class UKPostcode
   # The first part of the outcode, e.g. W1A 2AB -> W
   #
   def area
-    letters(parts[0])
+    parts[0]
   end
 
   # The second part of the outcode, e.g. W1A 2AB -> 1A
   #
   def district
-    digits(parts[1])
+    parts[1]
   end
 
   # The first part of the incode, e.g. W1A 2AB -> 2
   #
   def sector
-    digits(parts[2])
+    parts[2]
   end
 
   # The second part of the incode, e.g. W1A 2AB -> AB
   #
   def unit
-    letters(parts[3])
+    parts[3]
   end
 
   # Render the postcode as a normalised string, i.e. in upper case and with spacing.
@@ -85,12 +84,19 @@ class UKPostcode
 
 private
   def parts
-    if @matched
-      @parts
+    return @parts if @matched
+
+    @matched = true
+    matches = raw.upcase.match(MATCH) || []
+    if matches[1]
+      @parts = %w[ G IR 0 AA ]
     else
-      @matched = true
-      matches = raw.upcase.match(MATCH) || []
-      @parts = (1..4).map{ |i| matches[i] }
+      a, b, c, d = (2..5).map{ |i| matches[i] }
+      if a =~ /^[A-Z][I1]$/
+        a = a[0, 1]
+        b = "1" + b
+      end
+      @parts = [letters(a), digits(b), digits(c), letters(d)]
     end
   end
 

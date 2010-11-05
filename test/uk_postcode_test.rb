@@ -239,4 +239,45 @@ class UKPostcodeTest < Test::Unit::TestCase
       end
     end
   end
+
+  context "single-letter area code" do
+    %w[B E G L M N S W].each do |area|
+      context area do
+        should "not convert 1 to I in two-digit outcode" do
+          outcode = area + "11"
+          postcode = UKPostcode.new(outcode)
+          assert_equal area,    postcode.area
+          assert_equal outcode, postcode.outcode
+        end
+
+        should "not convert 1 to I in full postcode with space" do
+          outcode = area + "13"
+          postcode = UKPostcode.new(outcode + " 1AA")
+          assert_equal area,    postcode.area
+          assert_equal outcode, postcode.outcode
+        end
+
+        should "not convert 1 to I in full postcode without space" do
+          outcode = area + "13"
+          postcode = UKPostcode.new(outcode + "2AA")
+          assert_equal area,    postcode.area
+          assert_equal outcode, postcode.outcode
+        end
+      end
+    end
+  end
+
+  context "GIR 0AA" do
+    setup do
+      @norm = "GIR 0AA"
+    end
+
+    should "stay as is" do
+      assert_equal @norm, UKPostcode.new(@norm).norm
+    end
+
+    should "be normalised" do
+      assert_equal @norm, UKPostcode.new("G1ROAA").norm
+    end
+  end
 end
