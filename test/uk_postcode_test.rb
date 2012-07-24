@@ -12,8 +12,8 @@ class UKPostcodeTest < Test::Unit::TestCase
     %w[EX  1 1 AE], %w[TQ  1 1 AG]
   ]
 
-  { "full samples with spaces"    => lambda{ |a,b,c,d| [[a, b, " ", c, d].join, [a, b, c, d]] },
-    "full samples without spaces" => lambda{ |a,b,c,d| [[a, b, c, d].join, [a, b, c, d]] },
+  { "full samples with spaces"    => lambda{ |(a,b,c,d)| [[a, b, " ", c, d].join, [a, b, c, d]] },
+    "full samples without spaces" => lambda{ |(a,b,c,d)| [[a, b, c, d].join, [a, b, c, d]] },
   }.each do |desc, mapping|
     context desc do
       setup do
