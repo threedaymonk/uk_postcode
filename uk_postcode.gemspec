@@ -16,4 +16,5 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
 
   s.add_development_dependency "shoulda"
+  s.add_development_dependency "rake"
 end
