@@ -1,3 +1,4 @@
 test/samples/code_point_open*
 *.gem
 Gemfile.lock
+Code-Point Open
