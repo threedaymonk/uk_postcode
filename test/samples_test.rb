@@ -1,6 +1,6 @@
 $:.unshift File.join(File.dirname(__FILE__), "..", "lib")
 require "test/unit"
-require "shoulda"
+require "shoulda/context"
 require "uk_postcode"
 
 class UKPostcodeTest < Test::Unit::TestCase

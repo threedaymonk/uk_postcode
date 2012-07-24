@@ -15,6 +15,6 @@ Gem::Specification.new do |s|
   s.executables  = Dir["bin/**"].map { |f| File.basename(f) }
   s.require_path = 'lib'
 
-  s.add_development_dependency "shoulda"
+  s.add_development_dependency "shoulda-context"
   s.add_development_dependency "rake"
 end
