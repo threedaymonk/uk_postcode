@@ -58,6 +58,6 @@ To test against the full UK postcode set, you need to obtain the
 transform it:
 
     unzip /path/to/codepo_gb.zip
-    cat Code-Point\ Open/data/*.csv | cut -c 2-8 | sort -uV > test/samples/code_point_open.list
+    cat Code-Point\ Open/Data/*.csv | cut -c 2-8 | sort -uV > test/samples/code_point_open.list
 
 [cpo]: https://www.ordnancesurvey.co.uk/opendatadownload/products.html
