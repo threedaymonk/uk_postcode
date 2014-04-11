@@ -1,9 +1,7 @@
-$:.unshift File.join(File.dirname(__FILE__), "..", "lib")
-require "test/unit"
-require "shoulda/context"
+require_relative "./test_helper"
 require "uk_postcode"
 
-class UKPostcodeTest < Test::Unit::TestCase
+describe UKPostcode do
 
   VALID_SAMPLES  = [
     %w[A   9 9 AA], %w[A  99 9 AA], %w[AA  9 9 AA], %w[AA 99 9 AA], %w[A  9A 9 AA],
@@ -15,119 +13,119 @@ class UKPostcodeTest < Test::Unit::TestCase
   { "full samples with spaces"    => lambda{ |(a,b,c,d)| [[a, b, " ", c, d].join, [a, b, c, d]] },
     "full samples without spaces" => lambda{ |(a,b,c,d)| [[a, b, c, d].join, [a, b, c, d]] },
   }.each do |desc, mapping|
-    context desc do
-      setup do
-        @samples = VALID_SAMPLES.map(&mapping)
-      end
+    describe desc do
+      let(:samples) {
+        VALID_SAMPLES.map(&mapping)
+      }
 
-      should "all be valid" do
-        @samples.each do |sample, _|
-          assert UKPostcode.new(sample).valid?, "'#{sample}' should be valid"
+      it "should all be valid" do
+        samples.each do |sample, _|
+          UKPostcode.new(sample).must_be :valid?
         end
       end
 
-      should "all be full" do
-        @samples.each do |sample, _|
-          assert UKPostcode.new(sample).full?, "'#{sample}' should be full"
+      it "should all be full" do
+        samples.each do |sample, _|
+          UKPostcode.new(sample).must_be :full?
         end
       end
 
-      should "extract outcodes" do
-        @samples.each do |sample, parts|
-          assert_equal parts[0]+parts[1], UKPostcode.new(sample).outcode
+      it "should extract outcodes" do
+        samples.each do |sample, parts|
+          UKPostcode.new(sample).outcode.must_equal parts[0] + parts[1]
         end
       end
 
-      should "extract incodes" do
-        @samples.each do |sample, parts|
-          assert_equal parts[2]+parts[3], UKPostcode.new(sample).incode
+      it "should extract incodes" do
+        samples.each do |sample, parts|
+          UKPostcode.new(sample).incode.must_equal parts[2] + parts[3]
         end
       end
 
-      should "extract area" do
-        @samples.each do |sample, parts|
-          assert_equal parts[0], UKPostcode.new(sample).area
+      it "should extract area" do
+        samples.each do |sample, parts|
+          UKPostcode.new(sample).area.must_equal parts[0]
         end
       end
 
-      should "extract district" do
-        @samples.each do |sample, parts|
-          assert_equal parts[1], UKPostcode.new(sample).district
+      it "should extract district" do
+        samples.each do |sample, parts|
+          UKPostcode.new(sample).district.must_equal parts[1]
         end
       end
 
-      should "extract sector" do
-        @samples.each do |sample, parts|
-          assert_equal parts[2], UKPostcode.new(sample).sector
+      it "should extract sector" do
+        samples.each do |sample, parts|
+          UKPostcode.new(sample).sector.must_equal parts[2]
         end
       end
 
-      should "extract unit" do
-        @samples.each do |sample, parts|
-          assert_equal parts[3], UKPostcode.new(sample).unit
+      it "should extract unit" do
+        samples.each do |sample, parts|
+          UKPostcode.new(sample).unit.must_equal parts[3]
         end
       end
 
-      should "be the same when normalised" do
-        @samples.each do |sample, parts|
+      it "should be the same when normalised" do
+        samples.each do |sample, parts|
           expected = [parts[0], parts[1], " ", parts[2], parts[3]].join
-          assert_equal expected, UKPostcode.new(sample).norm
+          UKPostcode.new(sample).norm.must_equal expected
         end
       end
     end
   end
 
-  context "outcode samples" do
-    setup do
-      @samples = VALID_SAMPLES.map{ |a,b,c,d| [a, b].join }
-    end
+  describe "outcode samples" do
+    let(:samples) {
+      VALID_SAMPLES.map{ |a,b,c,d| [a, b].join }
+    }
 
-    should "all be valid" do
-      @samples.each do |sample|
-        assert UKPostcode.new(sample).valid?, "'#{sample}' should be valid"
+    it "should all be valid" do
+      samples.each do |sample|
+        UKPostcode.new(sample).must_be :valid?
       end
     end
 
-    should "not be full" do
-      @samples.each do |sample|
-        assert !UKPostcode.new(sample).full?, "'#{sample}' should not be full"
+    it "should not be full" do
+      samples.each do |sample|
+        UKPostcode.new(sample).wont_be :full?
       end
     end
 
-    should "keep outcode unchanged" do
-      @samples.each do |sample|
-        assert_equal sample, UKPostcode.new(sample).outcode
+    it "should keep outcode unchanged" do
+      samples.each do |sample|
+        UKPostcode.new(sample).outcode.must_equal sample
       end
     end
 
-    should "have nil incode" do
-      @samples.each do |sample|
-        assert_nil UKPostcode.new(sample).incode
+    it "should have nil incode" do
+      samples.each do |sample|
+        UKPostcode.new(sample).incode.must_be_nil
       end
     end
 
-    should "be the same when normalised" do
-      @samples.each do |sample|
-        assert_equal sample, UKPostcode.new(sample).norm
+    it "should be the same when normalised" do
+      samples.each do |sample|
+        UKPostcode.new(sample).norm.must_equal sample
       end
     end
   end
 
-  context "when the postcode is supplied in lower case" do
-    setup do
-      @postcode = UKPostcode.new("w1a 1aa")
+  describe "when the postcode is supplied in lower case" do
+    let(:postcode) {
+      UKPostcode.new("w1a 1aa")
+    }
+
+    it "should extract outcode in upper case" do
+      postcode.outcode.must_equal "W1A"
     end
 
-    should "extract outcode in upper case" do
-      assert_equal "W1A", @postcode.outcode
+    it "should extract incode in upper case" do
+      postcode.incode.must_equal "1AA"
     end
 
-    should "extract incode in upper case" do
-      assert_equal "1AA", @postcode.incode
-    end
-
-    should "be valid" do
-      assert @postcode.valid?
+    it "should be valid" do
+      postcode.must_be :valid?
     end
   end
 
@@ -136,147 +134,147 @@ class UKPostcodeTest < Test::Unit::TestCase
     "when the outcode is truncated" => "W",
     "when the postcode is invalid" => "ABC DEFG"
   }.each do |desc, sample|
-    context desc do
-      setup do
-        @postcode = UKPostcode.new(sample)
+    describe desc do
+      let(:postcode) {
+        UKPostcode.new(sample)
+      }
+
+      it "should not be valid" do
+        refute postcode.valid?
       end
 
-      should "not be valid" do
-        assert !@postcode.valid?
+      it "should not be full" do
+        refute postcode.full?
       end
 
-      should "not be full" do
-        assert !@postcode.full?
+      it "should return an empty string when normalised" do
+        postcode.norm.must_equal ""
       end
 
-      should "return an empty string when normalised" do
-        assert_equal "", @postcode.norm
+      it "should return nil for outcode" do
+        postcode.outcode.must_be_nil
       end
 
-      should "return nil for outcode" do
-        assert_nil @postcode.outcode
-      end
-
-      should "return nil for incode" do
-        assert_nil @postcode.incode
+      it "should return nil for incode" do
+        postcode.incode.must_be_nil
       end
     end
   end
 
-  context "when used as a string" do
-    should "normalise spacing when no spacing has been used in the input" do
+  describe "when used as a string" do
+    it "should normalise spacing when no spacing has been used in the input" do
       assert_equal "W1A 1AA", UKPostcode.new("W1A1AA").norm
     end
 
-    should "normalise spacing when too much spacing has been used in the input" do
+    it "should normalise spacing when too much spacing has been used in the input" do
       assert_equal "W1A 1AA", UKPostcode.new("W1A  1AA").norm
     end
 
-    should "convert case" do
+    it "should convert case" do
       assert_equal "W1A 1AA", UKPostcode.new("w1a 1aa").norm
     end
 
-    should "ignore a missing incode" do
+    it "should ignore a missing incode" do
       assert_equal "W1A", UKPostcode.new("W1A").norm
     end
 
-    should "trim whitespace from start and end of the string" do
+    it "should trim whitespace from start and end of the string" do
       assert_equal "W1A 1AA", UKPostcode.new(" W1A 1AA ").norm
     end
   end
 
-  should "return original input for to_s" do
+  it "should return original input for to_s" do
     ["W1A1AA", "w1a 1aa", "W1A"].each do |s|
       postcode = UKPostcode.new(s)
       assert_equal s, postcode.to_s
     end
   end
 
-  should "return original input for to_str" do
+  it "should return original input for to_str" do
     ["W1A1AA", "w1a 1aa", "W1A"].each do |s|
       postcode = UKPostcode.new(s)
       assert_equal s, postcode.to_str
     end
   end
 
-  context "when letters are used instead of digits" do
-    context "in a full postcode" do
-      setup do
-        @postcode = UKPostcode.new("SWIA OPW")
+  describe "when letters are used instead of digits" do
+    describe "in a full postcode" do
+      let(:postcode) {
+        UKPostcode.new("SWIA OPW")
+      }
+
+      it "should be valid" do
+        assert postcode.valid?
       end
 
-      should "be valid" do
-        assert @postcode.valid?
+      it "should be full" do
+        assert postcode.full?
       end
 
-      should "be full" do
-        assert @postcode.full?
-      end
-
-      should "normalise to digits" do
-        assert_equal "SW1A 0PW", @postcode.norm
-      end
-    end
-  end
-
-  context "when digits are used instead of letters" do
-    context "in a full postcode" do
-      setup do
-        @postcode = UKPostcode.new("0X1 0AB")
-      end
-
-      should "be valid" do
-        assert @postcode.valid?
-      end
-
-      should "be full" do
-        assert @postcode.full?
-      end
-
-      should "normalise to letters" do
-        assert_equal "OX1 0AB", @postcode.norm
+      it "should normalise to digits" do
+        postcode.norm.must_equal "SW1A 0PW"
       end
     end
   end
 
-  context "single-letter area code" do
+  describe "when digits are used instead of letters" do
+    describe "in a full postcode" do
+      let(:postcode) {
+        UKPostcode.new("0X1 0AB")
+      }
+
+      it "should be valid" do
+        postcode.must_be :valid?
+      end
+
+      it "should be full" do
+        postcode.must_be :full?
+      end
+
+      it "should normalise to letters" do
+        postcode.norm.must_equal "OX1 0AB"
+      end
+    end
+  end
+
+  describe "single-letter area code" do
     %w[B E G L M N S W].each do |area|
-      context area do
-        should "not convert 1 to I in two-digit outcode" do
+      describe area do
+        it "should not convert 1 to I in two-digit outcode" do
           outcode = area + "11"
           postcode = UKPostcode.new(outcode)
-          assert_equal area,    postcode.area
-          assert_equal outcode, postcode.outcode
+          postcode.area.must_equal area
+          postcode.outcode.must_equal outcode
         end
 
-        should "not convert 1 to I in full postcode with space" do
+        it "should not convert 1 to I in full postcode with space" do
           outcode = area + "13"
           postcode = UKPostcode.new(outcode + " 1AA")
-          assert_equal area,    postcode.area
-          assert_equal outcode, postcode.outcode
+          postcode.area.must_equal area
+          postcode.outcode.must_equal outcode
         end
 
-        should "not convert 1 to I in full postcode without space" do
+        it "should not convert 1 to I in full postcode without space" do
           outcode = area + "13"
           postcode = UKPostcode.new(outcode + "2AA")
-          assert_equal area,    postcode.area
-          assert_equal outcode, postcode.outcode
+          postcode.area.must_equal area
+          postcode.outcode.must_equal outcode
         end
       end
     end
   end
 
-  context "GIR 0AA" do
-    setup do
-      @norm = "GIR 0AA"
+  describe "GIR 0AA" do
+    let(:norm) {
+      "GIR 0AA"
+    }
+
+    it "should stay as is if already normalised" do
+      UKPostcode.new(norm).norm.must_equal norm
     end
 
-    should "stay as is" do
-      assert_equal @norm, UKPostcode.new(@norm).norm
-    end
-
-    should "be normalised" do
-      assert_equal @norm, UKPostcode.new("G1ROAA").norm
+    it "should be normalised" do
+      UKPostcode.new("G1ROAA").norm.must_equal norm
     end
   end
 end
