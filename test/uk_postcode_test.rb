@@ -163,37 +163,35 @@ describe UKPostcode do
 
   describe "when used as a string" do
     it "should normalise spacing when no spacing has been used in the input" do
-      assert_equal "W1A 1AA", UKPostcode.new("W1A1AA").norm
+      UKPostcode.new("W1A1AA").norm.must_equal "W1A 1AA"
     end
 
     it "should normalise spacing when too much spacing has been used in the input" do
-      assert_equal "W1A 1AA", UKPostcode.new("W1A  1AA").norm
+      UKPostcode.new("W1A  1AA").norm.must_equal "W1A 1AA"
     end
 
     it "should convert case" do
-      assert_equal "W1A 1AA", UKPostcode.new("w1a 1aa").norm
+      UKPostcode.new("w1a 1aa").norm.must_equal "W1A 1AA"
     end
 
     it "should ignore a missing incode" do
-      assert_equal "W1A", UKPostcode.new("W1A").norm
+      UKPostcode.new("W1A").norm.must_equal "W1A"
     end
 
     it "should trim whitespace from start and end of the string" do
-      assert_equal "W1A 1AA", UKPostcode.new(" W1A 1AA ").norm
+      UKPostcode.new(" W1A 1AA ").norm.must_equal "W1A 1AA"
     end
   end
 
   it "should return original input for to_s" do
     ["W1A1AA", "w1a 1aa", "W1A"].each do |s|
-      postcode = UKPostcode.new(s)
-      assert_equal s, postcode.to_s
+      UKPostcode.new(s).to_s.must_equal s
     end
   end
 
   it "should return original input for to_str" do
     ["W1A1AA", "w1a 1aa", "W1A"].each do |s|
-      postcode = UKPostcode.new(s)
-      assert_equal s, postcode.to_str
+      UKPostcode.new(s).to_str.must_equal s
     end
   end
 
@@ -204,11 +202,11 @@ describe UKPostcode do
       }
 
       it "should be valid" do
-        assert postcode.valid?
+        postcode.must_be :valid?
       end
 
       it "should be full" do
-        assert postcode.full?
+        postcode.must_be :full?
       end
 
       it "should normalise to digits" do

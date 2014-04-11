@@ -9,9 +9,9 @@ describe "Sample files" do
         outcode = line[0,4].strip
         incode  = line[4,4].strip
         postcode = UKPostcode.new(outcode + incode)
-        assert postcode.valid?, "'#{outcode} #{incode}' should be valid"
-        assert_equal outcode, postcode.outcode, "incorrect outcode for '#{outcode} #{incode}'"
-        assert_equal incode,  postcode.incode,  "incorrect incode for '#{outcode} #{incode}'"
+        postcode.must_be :valid?
+        postcode.outcode.must_equal outcode
+        postcode.incode.must_equal incode
       end
     end
   end
