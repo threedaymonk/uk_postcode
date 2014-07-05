@@ -109,4 +109,4 @@ private
   end
 end
 
-require "uk_postcode/version"
+require_relative "uk_postcode/version"
