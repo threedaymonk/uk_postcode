@@ -7,7 +7,7 @@ describe "Sample files" do
       open(path).each_line do |line|
         next if line =~ /^#|^$/
         outcode = line[0,4].strip
-        incode  = line[4,4].strip
+        incode  = line[4,3].strip
         postcode = UKPostcode.new(outcode + incode)
         postcode.must_be :valid?
         postcode.outcode.must_equal outcode
