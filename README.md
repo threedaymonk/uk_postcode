@@ -1,12 +1,10 @@
-uk_postcode
-===========
+# uk_postcode
 
 UK postcode parsing and validation for Ruby.
 I've checked it against every postcode I can get my hands on: that's about 1.8
 million of them.
 
-Usage
------
+## Usage
 
 ```ruby
 require "uk_postcode"
@@ -54,25 +52,55 @@ pc.outcode #=> "W1A"
 pc.incode  #=> "0AA"
 ```
 
-Gem?
-----
+## Gem?
 
 ```sh
 $ gem install uk_postcode
 ```
 
-Testing
--------
+## Testing
+
+To run the test suite:
+
+```sh
+$ rake
+```
 
 The full list of UK postcodes is not included in the repository due to its
 size.
+Additional sample files under `test/samples` will automatically be used.
 
-To test against the full UK postcode set, you need to obtain the
-[Code-Point® Open data set][cpo] from Ordnance Survey, unzip it, and extract
-a list of postcodes:
+The format of each line in a sample file must be `OOOOIII` or `OOO III` (where
+`O` = outcode, `I` = incode), e.g.:
 
-```sh
-$ cut -c 2-8 Data/CSV/*.csv | sort -uV > test/samples/code_point_open.list
+```
+AB1 0AA
+BT109AH
 ```
 
-[cpo]: https://www.ordnancesurvey.co.uk/opendatadownload/products.html
+You can obtain lists of postcodes by processing various datasets available
+from [mySociety][mys].
+
+### Code-Point Open
+
+This does not include postcodes for Northern Ireland, the Channel Islands,
+or the Isle of Man.
+
+```sh
+$ cut -c 2-8 Data/CSV/*.csv | \
+sort -uV > test/samples/large/code_point_open.list
+```
+
+### ONS Postcode Directory
+
+This includes postcodes for the whole UK as well as the Channel Islands and the
+Isle of Man.
+It also includes some defunct postcodes, most notably the NPT outcode, which
+must be filtered out.
+
+```sh
+$ cut -c 2-8 ONSPD_*.csv | grep '[A-Z]' | grep -v ^NPT | \
+sort -uV > test/samples/large/onspd.list
+```
+
+[mys]: http://parlvid.mysociety.org/os/
