@@ -2,7 +2,7 @@ require_relative "./test_helper"
 require "uk_postcode"
 
 describe "Sample files" do
-  Dir[File.expand_path("../samples/*.list", __FILE__)].each do |path|
+  Dir[File.expand_path("../samples/**/*.list", __FILE__)].each do |path|
     it "should be valid for each line in #{File.basename(path, ".list")}" do
       open(path).each_line do |line|
         next if line =~ /^#|^$/
