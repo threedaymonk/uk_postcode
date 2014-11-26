@@ -54,10 +54,11 @@ The full list of UK postcodes is not included in the repository due to its
 size.
 
 To test against the full UK postcode set, you need to obtain the
-[Code-Point® Open data set][cpo] from Ordnance Survey, and to extract and
-transform it:
+[Code-Point® Open data set][cpo] from Ordnance Survey, unzip it, and extract
+a list of postcodes:
 
-    unzip /path/to/codepo_gb.zip
-    cat Code-Point\ Open/Data/*.csv | cut -c 2-8 | sort -uV > test/samples/code_point_open.list
+```sh
+$ cut -c 2-8 Data/CSV/*.csv | sort -uV > test/samples/code_point_open.list
+```
 
 [cpo]: https://www.ordnancesurvey.co.uk/opendatadownload/products.html
