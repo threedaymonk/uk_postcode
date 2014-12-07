@@ -1,8 +1,16 @@
 # uk_postcode
 
-UK postcode parsing and validation for Ruby.
-I've checked it against every postcode I can get my hands on: that's about 1.8
-million of them.
+UK postcode parsing and validation for Ruby for writing friendly software.
+
+Features:
+
+* Handles errors with `I`/`1` and `O`/`0`.
+* Does not require postcodes to contain spaces.
+* Normalises postcodes (e.g. `wiaiaa` to `W1A 1AA`).
+* Parses full postcodes or outcodes (`W1A`)
+* Allows extraction of fields within postcode.
+* Validated against 2.5 million postcodes in England, Wales, Scotland, Northern
+  Ireland, the Channel Islands, and the Isle of Man.
 
 ## Usage
 
