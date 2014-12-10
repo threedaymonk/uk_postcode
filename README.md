@@ -60,6 +60,17 @@ pc.outcode #=> "W1A"
 pc.incode  #=> "0AA"
 ```
 
+Find the country of a postcode or outcode (if possible: some outcodes span
+countries):
+
+```ruby
+UKPostcode.new("W1A 1AA").country #=> :england
+UKPostcode.new("BT4").country #=> :northern_ireland
+UKPostcode.new("CA6").country #=> :unknown
+UKPostcode.new("CA6 5HS").country #=> :scotland
+UKPostcode.new("CA6 5HT").country #=> :england
+```
+
 ## Gem?
 
 ```sh
@@ -71,44 +82,17 @@ $ gem install uk_postcode
 To run the test suite:
 
 ```sh
-$ rake
+$ make
 ```
 
 The full list of UK postcodes is not included in the repository due to its
-size.
-Additional sample files under `test/samples` will automatically be used.
+size, but will be fetched automatically from [mySociety][mys].
 
-The format of each line in a sample file must be `OOOOIII` or `OOO III` (where
-`O` = outcode, `I` = incode), e.g.:
+If you are running an automatic build process, please find a way to cache these
+files and run the tests via Rake instead:
 
 ```
-AB1 0AA
-BT109AH
-```
-
-You can obtain lists of postcodes by processing various datasets available
-from [mySociety][mys].
-
-### Code-Point Open
-
-This does not include postcodes for Northern Ireland, the Channel Islands,
-or the Isle of Man.
-
-```sh
-$ cut -c 2-8 Data/CSV/*.csv | \
-sort -uV > test/samples/large/code_point_open.list
-```
-
-### ONS Postcode Directory
-
-This includes postcodes for the whole UK as well as the Channel Islands and the
-Isle of Man.
-It also includes some defunct postcodes, most notably the NPT outcode, which
-must be filtered out.
-
-```sh
-$ cut -c 2-8 ONSPD_*.csv | grep '[A-Z]' | grep -v ^NPT | \
-sort -uV > test/samples/large/onspd.list
+$ rake
 ```
 
 [mys]: http://parlvid.mysociety.org/os/

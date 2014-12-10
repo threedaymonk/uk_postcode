@@ -1,4 +1,6 @@
-test/samples/large
+test/samples/full.list
+/tmp/
+/data/
 *.gem
 Gemfile.lock
 Code-Point Open
