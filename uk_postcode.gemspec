@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.license      = "MIT"
   s.has_rdoc     = true
   s.files        = Dir["{Rakefile,README.md,{bin,test,lib}/**/*}"] -
-                   ["test/samples/full.list"]
+                   ["test/data/**/*"]
   s.executables  = Dir["bin/**"].map { |f| File.basename(f) }
   s.require_path = 'lib'
 

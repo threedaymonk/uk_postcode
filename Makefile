@@ -3,7 +3,7 @@ CODEPOINT_URL=http://parlvid.mysociety.org/os/codepo_gb-2014-11.zip
 
 .PHONY: test
 
-test: test/samples/full.list lib/uk_postcode/country/lookup.rb
+test: test/data/postcodes.csv lib/uk_postcode/country/lookup.rb
 	rake
 
 data/onspd.zip:
@@ -25,8 +25,9 @@ data/codepoint.csv: data/codepoint.zip
 data/postcodes.csv: data/onspd.csv data/codepoint.csv
 	cat $^ | grep '[A-Z]' | grep -v NPT | sort -uV > $@
 
-test/samples/full.list: data/postcodes.csv
-	cut -c 2-8 $< > $@
+test/data/postcodes.csv: data/postcodes.csv
+	mkdir -p test/data
+	cp $< $@
 
 lib/uk_postcode/country/lookup.rb: data/postcodes.csv
 	ruby -I./lib tools/generate_country_lookup.rb $< > $@
