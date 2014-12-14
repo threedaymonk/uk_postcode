@@ -103,6 +103,56 @@ describe UKPostcode::GeographicPostcode do
         pc.district.must_equal "1"
       end
     end
+
+    describe "tricky postcodes" do
+      it "should parse B11 1LL" do
+        pc = described_class.parse("B111LL")
+        pc.area.must_equal "B"
+        pc.district.must_equal "11"
+        pc.sector.must_equal "1"
+        pc.unit.must_equal "LL"
+      end
+
+      it "should parse BII ILL" do
+        pc = described_class.parse("BIIILL")
+        pc.area.must_equal "B"
+        pc.district.must_equal "11"
+        pc.sector.must_equal "1"
+        pc.unit.must_equal "LL"
+      end
+
+      it "should parse BB11 1DJ" do
+        pc = described_class.parse("BB111DJ")
+        pc.area.must_equal "BB"
+        pc.district.must_equal "11"
+        pc.sector.must_equal "1"
+        pc.unit.must_equal "DJ"
+      end
+
+      it "should parse BBII IDJ" do
+        pc = described_class.parse("BBIIIDJ")
+        pc.area.must_equal "BB"
+        pc.district.must_equal "11"
+        pc.sector.must_equal "1"
+        pc.unit.must_equal "DJ"
+      end
+
+      it "should parse B10 0JP" do
+        pc = described_class.parse("B100JP")
+        pc.area.must_equal "B"
+        pc.district.must_equal "10"
+        pc.sector.must_equal "0"
+        pc.unit.must_equal "JP"
+      end
+
+      it "should parse BIO OJP" do
+        pc = described_class.parse("BIOOJP")
+        pc.area.must_equal "B"
+        pc.district.must_equal "10"
+        pc.sector.must_equal "0"
+        pc.unit.must_equal "JP"
+      end
+    end
   end
 
   describe "area" do
