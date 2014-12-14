@@ -1,6 +1,6 @@
 ONSPD_URL=http://parlvid.mysociety.org/os/ONSPD_MAY_2014_csv.zip
 
-.PHONY: test
+.PHONY: test clean
 
 test: test/data/postcodes.csv lib/uk_postcode/country/lookup.rb
 	rake
@@ -15,13 +15,14 @@ data/onspd.csv: data/onspd.zip
 		mv $@.tmp $@
 
 data/postcodes.csv: data/onspd.csv
-	cat $^ | grep '[A-Z]' | grep -v NPT | sort -uV > $@.tmp && \
-		mv $@.tmp $@
+	grep '[A-Z]' $^ | grep -v NPT | sort -uV > $@.tmp && mv $@.tmp $@
 
 test/data/postcodes.csv: data/postcodes.csv
 	mkdir -p test/data
 	cp $< $@
 
 lib/uk_postcode/country/lookup.rb: data/postcodes.csv
-	ruby -I./lib tools/generate_country_lookup.rb $< > $@.tmp && \
-		mv $@.tmp $@
+	ruby -I./lib tools/generate_country_lookup.rb $< > $@.tmp && mv $@.tmp $@
+
+clean:
+	rm -rf data test/data
