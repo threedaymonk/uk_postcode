@@ -1,3 +1,5 @@
+require 'uk_postcode/country'
+
 class UKPostcode
   MATCH = /\A \s* (?:
              ( G[I1]R \s* [0O]AA )           # special postcode
@@ -16,6 +18,17 @@ class UKPostcode
   #
   def initialize(postcode_as_string)
     @raw = postcode_as_string
+  end
+
+  # Return the country corresponding to a full or partial postcode
+  # Note that some outcodes (e.g. CA6) are shared between countries, in which
+  # case only a full postcode will return the actual country.
+  #
+  # Country is one of :england, :scotland, :wales, :northern_ireland,
+  # :channel_islands, or :isle_of_man.
+  #
+  def country
+    Country.new(self).country
   end
 
   # Returns true if the postcode is a valid full postcode (e.g. W1A 1AA) or outcode (e.g. W1A)

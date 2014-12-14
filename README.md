@@ -60,10 +60,34 @@ pc.outcode #=> "W1A"
 pc.incode  #=> "0AA"
 ```
 
-## Gem?
+Find the country of a postcode or outcode (if possible: some outcodes span
+countries):
+
+```ruby
+UKPostcode.new("W1A 1AA").country #=> :england
+UKPostcode.new("BT4").country #=> :northern_ireland
+UKPostcode.new("CA6").country #=> :unknown
+UKPostcode.new("CA6 5HS").country #=> :scotland
+UKPostcode.new("CA6 5HT").country #=> :england
+```
+
+The country returned for a postcode is derived from the [ONS Postcode
+Directory][onspd] and might not always be correct in a border region:
+
+> Users should note that postcodes that straddle two geographic areas will be
+> assigned to the area where the mean grid reference of all the addresses
+> within the postcode falls.
+
+## As a gem
 
 ```sh
 $ gem install uk_postcode
+```
+
+or in your `Gemfile`:
+
+```ruby
+gem "uk_postcode"
 ```
 
 ## Testing
@@ -71,44 +95,39 @@ $ gem install uk_postcode
 To run the test suite:
 
 ```sh
-$ rake
+$ make
 ```
 
 The full list of UK postcodes is not included in the repository due to its
-size.
-Additional sample files under `test/samples` will automatically be used.
+size, but will be fetched automatically from [mySociety][mys].
 
-The format of each line in a sample file must be `OOOOIII` or `OOO III` (where
-`O` = outcode, `I` = incode), e.g.:
+If you are running an automatic build process, please find a way to cache these
+files and run the tests via Rake instead:
 
 ```
-AB1 0AA
-BT109AH
+$ rake
 ```
 
-You can obtain lists of postcodes by processing various datasets available
-from [mySociety][mys].
+## Licensing
 
-### Code-Point Open
+You may use this library according to the terms of the MIT License; see
+COPYING.txt for details.
 
-This does not include postcodes for Northern Ireland, the Channel Islands,
-or the Isle of Man.
+The regular expressions in `lookup.rb` are derived from the ONS Postcode
+Directory according to the terms of the [Open Government
+Licence][onspd-lic].
 
-```sh
-$ cut -c 2-8 Data/CSV/*.csv | \
-sort -uV > test/samples/large/code_point_open.list
-```
+> Under the terms of the Open Government Licence (OGL) […] anyone wishing to
+> use or re-use ONS material, whether commercially or privately, may do so
+> freely without a specific application for a licence, subject to the
+> conditions of the OGL and the Framework. Users reproducing ONS content must
+> include a source accreditation to ONS.
 
-### ONS Postcode Directory
-
-This includes postcodes for the whole UK as well as the Channel Islands and the
-Isle of Man.
-It also includes some defunct postcodes, most notably the NPT outcode, which
-must be filtered out.
-
-```sh
-$ cut -c 2-8 ONSPD_*.csv | grep '[A-Z]' | grep -v ^NPT | \
-sort -uV > test/samples/large/onspd.list
-```
+In order to avoid the restrictive commercial terms of the Northern Ireland
+data in the ONSPD, this is not used to generate the regular expressions.
+Fortunately, Northern Ireland postcodes are very simple: they all start with
+`BT`!
 
 [mys]: http://parlvid.mysociety.org/os/
+[onspd]: http://www.ons.gov.uk/ons/guide-method/geography/products/postcode-directories/-nspp-/index.html
+[onspd-lic]: http://www.ons.gov.uk/ons/guide-method/geography/beginner-s-guide/licences/index.html
