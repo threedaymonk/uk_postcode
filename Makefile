@@ -2,7 +2,7 @@ ONSPD_URL=http://parlvid.mysociety.org/os/ONSPD_MAY_2014_csv.zip
 
 .PHONY: test clean
 
-test: test/data/postcodes.csv lib/uk_postcode/country/lookup.rb
+test: test/data/postcodes.csv lib/uk_postcode/country_lookup.rb
 	rake
 
 data/onspd.zip:
@@ -21,7 +21,7 @@ test/data/postcodes.csv: data/postcodes.csv
 	mkdir -p test/data
 	cp $< $@
 
-lib/uk_postcode/country/lookup.rb: data/postcodes.csv
+lib/uk_postcode/country_lookup.rb: data/postcodes.csv
 	ruby -I./lib tools/generate_country_lookup.rb $< > $@.tmp && mv $@.tmp $@
 
 clean:

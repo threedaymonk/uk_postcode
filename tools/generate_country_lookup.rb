@@ -18,17 +18,15 @@ tree = UKPostcode::Tree.new.tap { | t|
 }.compress
 
 puts <<END
-class UKPostcode
-  class Country
-    LOOKUP = {
+module UKPostcode
+  COUNTRY_LOOKUP = {
 END
 (COUNTRIES.values - [:northern_ireland]).each do |country|
   regexp = tree.filter(country).regexp
-  puts "      #{country}: #{regexp.inspect},"
+  puts "    #{country}: #{regexp.inspect},"
 end
 puts <<END
-      northern_ireland: /^BT/
-    }
-  end
+    northern_ireland: /^BT/
+  }
 end
 END

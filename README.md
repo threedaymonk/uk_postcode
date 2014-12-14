@@ -11,6 +11,7 @@ Features:
 * Allows extraction of fields within postcode.
 * Validated against 2.5 million postcodes in England, Wales, Scotland, Northern
   Ireland, the Channel Islands, and the Isle of Man.
+* Finds the country corresponding to a postcode, where possible.
 
 ## Usage
 
@@ -18,57 +19,67 @@ Features:
 require "uk_postcode"
 ```
 
-Validate and extract sections of a full postcode:
+Parse and extract sections of a full postcode:
 
 ```ruby
-pc = UKPostcode.new("W1A 2AB")
-pc.valid?   #=> true
-pc.full?    #=> true
-pc.outcode  #=> "W1A"
-pc.incode   #=> "2AB"
-pc.area     #=> "W"
-pc.district #=> "1A"
-pc.sector   #=> "2"
-pc.unit     #=> "AB"
+pc = UKPostcode.parse("W1A 2AB")
+pc.valid?   # => true
+pc.full?    # => true
+pc.outcode  # => "W1A"
+pc.incode   # => "2AB"
+pc.area     # => "W"
+pc.district # => "1A"
+pc.sector   # => "2"
+pc.unit     # => "AB"
 ```
 
 Or of a partial postcode:
 
 ```ruby
-pc = UKPostcode.new("W1A")
-pc.valid?   #=> true
-pc.full?    #=> false
-pc.outcode  #=> "W1A"
-pc.incode   #=> nil
-pc.area     #=> "W"
-pc.district #=> "1A"
-pc.sector   #=> nil
-pc.unit     #=> nil
+pc = UKPostcode.parse("W1A")
+pc.valid?   # => true
+pc.full?    # => false
+pc.outcode  # => "W1A"
+pc.incode   # => nil
+pc.area     # => "W"
+pc.district # => "1A"
+pc.sector   # => nil
+pc.unit     # => nil
 ```
 
-Normalise postcodes with `normalize` (or just `norm`):
+Postcodes are converted to a normal or canonical form:
 
 ```ruby
-UKPostcode.new("w1a1aa").normalize #=> "W1A 1AA"
+pc = UKPostcode.parse("w1a1aa")
+pc.valid?   # => true
+pc.area     # => "W"
+pc.district # => "1A"
+pc.sector   # => "1"
+pc.unit     # => "AA
+pc.to_s     # => "W1A 1AA"
 ```
 
-Fix mistakes with IO/10:
+And mistakes with I/1 and O/0 are corrected:
 
 ```ruby
-pc = UKPostcode.new("WIA OAA")
-pc.outcode #=> "W1A"
-pc.incode  #=> "0AA"
+pc = UKPostcode.parse("WIA OAA")
+pc.valid?   # => true
+pc.area     # => "W"
+pc.district # => "1A"
+pc.sector   # => "0"
+pc.unit     # => "AA
+pc.to_s     # => "W1A 0AA"
 ```
 
-Find the country of a postcode or outcode (if possible: some outcodes span
+Find the country of a full or partial postcode (if possible: some outcodes span
 countries):
 
 ```ruby
-UKPostcode.new("W1A 1AA").country #=> :england
-UKPostcode.new("BT4").country #=> :northern_ireland
-UKPostcode.new("CA6").country #=> :unknown
-UKPostcode.new("CA6 5HS").country #=> :scotland
-UKPostcode.new("CA6 5HT").country #=> :england
+UKPostcode.parse("W1A 1AA").country # => :england
+UKPostcode.parse("BT4").country # => :northern_ireland
+UKPostcode.parse("CA6").country # => :unknown
+UKPostcode.parse("CA6 5HS").country # => :scotland
+UKPostcode.parse("CA6 5HT").country # => :england
 ```
 
 The country returned for a postcode is derived from the [ONS Postcode
@@ -78,16 +89,36 @@ Directory][onspd] and might not always be correct in a border region:
 > assigned to the area where the mean grid reference of all the addresses
 > within the postcode falls.
 
-## As a gem
-
-```sh
-$ gem install uk_postcode
-```
-
-or in your `Gemfile`:
+Invalid postcodes:
 
 ```ruby
-gem "uk_postcode"
+pc = UKPostcode.parse("Not Valid")
+pc.valid?  # => false
+pc.full?   # => false
+pc.area    # => nil
+pc.to_s    # => "Not valid"
+pc.country # => :unknown
+```
+
+## For users of version 1.x
+
+The interface has changed significantly, so code that worked with version 1.x
+will not work with version 2.x without changes.
+
+Specifically:
+
+* Use `UKPostcode.parse(str)` where you previously used `UKPostcode.new(str)`.
+* `parse` will return either a `GeographicPostcode`, a `GiroPostcode`, or an
+  `InvalidPostcode`.
+* You may prefer to use `GeographicPostcode.parse` directly if you wish to
+  exclude `GIR 0AA` and invalid postcodes.
+
+## As a gem
+
+In your `Gemfile`:
+
+```ruby
+gem "uk_postcode", "~> 2.0.0.alpha"
 ```
 
 ## Testing

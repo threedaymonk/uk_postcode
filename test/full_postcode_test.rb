@@ -21,9 +21,9 @@ describe "Full set of postcodes" do
         incode  = row[:postcode][4,3].strip
         country = COUNTRIES.fetch(row[:country])
 
-        postcode = UKPostcode.new(outcode + incode)
+        postcode = UKPostcode.parse(outcode + incode)
 
-        postcode.must_be :valid?
+        postcode.wont_be_nil
         postcode.outcode.must_equal outcode
         postcode.incode.must_equal incode
         postcode.country.must_equal country

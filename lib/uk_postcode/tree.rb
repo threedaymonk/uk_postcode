@@ -1,4 +1,4 @@
-class UKPostcode
+module UKPostcode
   class Tree
     def initialize(tree = {})
       @root = tree

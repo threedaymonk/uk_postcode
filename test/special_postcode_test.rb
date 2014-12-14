@@ -41,8 +41,8 @@ describe "Special postcodes" do
 
   SPECIAL.each_slice(2) do |outcode, incode|
     it "should correctly handle special postcode #{outcode} #{incode}" do
-      postcode = UKPostcode.new(outcode + incode)
-      postcode.must_be :valid?
+      postcode = UKPostcode.parse(outcode + incode)
+      postcode.wont_be_nil
       postcode.outcode.must_equal outcode
       postcode.incode.must_equal incode
     end
