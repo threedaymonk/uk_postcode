@@ -22,11 +22,12 @@ class UKPostcode
   class Country
     LOOKUP = {
 END
-COUNTRIES.values.each do |country|
+(COUNTRIES.values - [:northern_ireland]).each do |country|
   regexp = tree.filter(country).regexp
   puts "      #{country}: #{regexp.inspect},"
 end
 puts <<END
+      northern_ireland: /^BT/
     }
   end
 end
