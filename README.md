@@ -71,10 +71,23 @@ UKPostcode.new("CA6 5HS").country #=> :scotland
 UKPostcode.new("CA6 5HT").country #=> :england
 ```
 
-## Gem?
+The country returned for a postcode is derived from the [ONS Postcode
+Directory][onspd] and might not always be correct in a border region:
+
+> Users should note that postcodes that straddle two geographic areas will be
+> assigned to the area where the mean grid reference of all the addresses
+> within the postcode falls.
+
+## As a gem
 
 ```sh
 $ gem install uk_postcode
+```
+
+or in your `Gemfile`:
+
+```ruby
+gem "uk_postcode"
 ```
 
 ## Testing
@@ -95,4 +108,26 @@ files and run the tests via Rake instead:
 $ rake
 ```
 
+## Licensing
+
+You may use this library according to the terms of the MIT License; see
+COPYING.txt for details.
+
+The regular expressions in `lookup.rb` are derived from the ONS Postcode
+Directory according to the terms of the [Open Government
+Licence][onspd-lic].
+
+> Under the terms of the Open Government Licence (OGL) […] anyone wishing to
+> use or re-use ONS material, whether commercially or privately, may do so
+> freely without a specific application for a licence, subject to the
+> conditions of the OGL and the Framework. Users reproducing ONS content must
+> include a source accreditation to ONS.
+
+In order to avoid the restrictive commercial terms of the Northern Ireland
+data in the ONSPD, this is not used to generate the regular expressions.
+Fortunately, Northern Ireland postcodes are very simple: they all start with
+`BT`!
+
 [mys]: http://parlvid.mysociety.org/os/
+[onspd]: http://www.ons.gov.uk/ons/guide-method/geography/products/postcode-directories/-nspp-/index.html
+[onspd-lic]: http://www.ons.gov.uk/ons/guide-method/geography/beginner-s-guide/licences/index.html
