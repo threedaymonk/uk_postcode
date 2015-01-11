@@ -11,7 +11,7 @@ module UKPostcode
   #
   class GeographicPostcode < AbstractPostcode
     PATTERN = %r{
-      \A ( [A-PR-UWYZ01][A-HJ-Z0]? )        # area
+      \A ( [A-PR-UWYZ01][A-HJ-Z0]? )     # area
       (?: ( [0-9IO][0-9A-HJKMNPR-YIO]? ) # district
         (?: \s* ( [0-9IO] )              # sector
           ( [ABD-HJLNPQ-Z]{2} )? )? )?   # unit
