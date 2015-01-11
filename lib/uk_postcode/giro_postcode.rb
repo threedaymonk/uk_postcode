@@ -1,4 +1,5 @@
 require "singleton"
+require "uk_postcode/abstract_postcode"
 
 module UKPostcode
 
@@ -8,7 +9,7 @@ module UKPostcode
   # area, district, sector, and unit all return nil, because this postcode
   # does not meaningfully possess these distinctions.
   #
-  class GiroPostcode
+  class GiroPostcode < AbstractPostcode
     include Singleton
 
     PATTERN = /\A G[I1]R \s* [0O]AA \z/ix
@@ -19,8 +20,6 @@ module UKPostcode
     def self.parse(str)
       PATTERN.match(str.strip) ? instance : nil
     end
-
-    attr_reader :area, :district, :sector, :unit
 
     # The left-hand part of the postcode, always "GIR".
     #

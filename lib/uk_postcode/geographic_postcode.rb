@@ -1,4 +1,5 @@
 require "uk_postcode/country_finder"
+require "uk_postcode/abstract_postcode"
 
 module UKPostcode
 
@@ -8,7 +9,7 @@ module UKPostcode
   # Despite the name, it also handles non-geographic postcodes that follow the
   # geographic format.
   #
-  class GeographicPostcode
+  class GeographicPostcode < AbstractPostcode
     PATTERN = %r{
       \A ( [A-PR-UWYZ01][A-HJ-Z0]? )        # area
       (?: ( [0-9IO][0-9A-HJKMNPR-YIO]? ) # district
