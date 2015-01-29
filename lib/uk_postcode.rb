@@ -108,5 +108,3 @@ private
     s && s.tr("IO", "10")
   end
 end
-
-require "uk_postcode/version"
