@@ -5,8 +5,6 @@ require "uk_postcode/invalid_postcode"
 require "uk_postcode/parser_chain"
 
 module UKPostcode
-  module_function
-
   DEFAULT_PARSER_CHAIN = ParserChain.new(
     GiroPostcode, GeographicPostcode, InvalidPostcode
   )
@@ -18,4 +16,6 @@ module UKPostcode
   def parse(str)
     DEFAULT_PARSER_CHAIN.parse(str)
   end
+
+  module_function :parse
 end

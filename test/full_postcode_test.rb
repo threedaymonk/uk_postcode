@@ -19,8 +19,8 @@ describe "Full set of postcodes" do
     skip "Skipping because #{CSV_PATH} does not exist" unless File.exist?(CSV_PATH)
 
     CSV.foreach(CSV_PATH, headers: [:postcode, :country]) do |row|
-      outcode = row[:postcode][0,4].strip
-      incode  = row[:postcode][4,3].strip
+      outcode = row[:postcode][0, 4].strip
+      incode  = row[:postcode][4, 3].strip
       country = COUNTRIES.fetch(row[:country])
 
       postcode = UKPostcode.parse(outcode + incode)

@@ -2,7 +2,7 @@ module UKPostcode
   class AbstractPostcode
     NotImplemented = Class.new(StandardError)
 
-    def self.parse(str)
+    def self.parse(_str)
       raise NotImplemented
     end
 

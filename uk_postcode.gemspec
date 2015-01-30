@@ -1,7 +1,4 @@
-lib = File.expand_path('../lib/', __FILE__)
-$:.unshift lib unless $:.include?(lib)
-
-require 'uk_postcode/version'
+require_relative 'lib/uk_postcode/version'
 
 Gem::Specification.new do |s|
   s.name         = "uk_postcode"

@@ -10,13 +10,13 @@ module UKPostcode
   # geographic format.
   #
   class GeographicPostcode < AbstractPostcode
-    PATTERN = %r{
+    PATTERN = /
       \A ( [A-PR-UWYZ01][A-HJ-Z0]? )     # area
       (?: ( [0-9IO][0-9A-HJKMNPR-YIO]? ) # district
         (?: \s* ( [0-9IO] )              # sector
           ( [ABD-HJLNPQ-Z]{2} )? )? )?   # unit
       \Z
-    }ix
+    /ix
 
     # Attempts to parse the postcode given in str, and returns an instance of
     # GeographicPostcode on success, or nil on failure.
@@ -75,7 +75,7 @@ module UKPostcode
     end
 
     # Find the country associated with the postcode. Possible values are
-    # :england, :scotland, :wales, :northern_ireland, :isle_of_man, 
+    # :england, :scotland, :wales, :northern_ireland, :isle_of_man,
     # :channel_islands, or :unknown.
     #
     # Note that, due to limitations in the underlying data, the country might
@@ -86,6 +86,7 @@ module UKPostcode
     end
 
   private
+
     def letters(str)
       return nil unless str
       str.upcase.tr("10", "IO")
