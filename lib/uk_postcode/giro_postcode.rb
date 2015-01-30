@@ -21,6 +21,9 @@ module UKPostcode
       PATTERN.match(str.strip) ? instance : nil
     end
 
+    def initialize
+    end
+
     # The left-hand part of the postcode, always "GIR".
     #
     def outcode

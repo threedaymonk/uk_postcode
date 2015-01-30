@@ -6,6 +6,10 @@ module UKPostcode
       raise NotImplemented
     end
 
+    def initialize(*)
+      raise NotImplemented
+    end
+
     def area;     nil; end
     def district; nil; end
     def sector;   nil; end
