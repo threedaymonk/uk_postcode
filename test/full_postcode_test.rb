@@ -15,21 +15,20 @@ describe "Full set of postcodes" do
   }
 
   it "should correctly parse and find the country of every extant postcode" do
-    if File.exist?(CSV_PATH)
-      CSV.foreach(CSV_PATH, headers: [:postcode, :country]) do |row|
-        outcode = row[:postcode][0,4].strip
-        incode  = row[:postcode][4,3].strip
-        country = COUNTRIES.fetch(row[:country])
+    skip "Skipping because SKIP_FULL_TEST was set" if ENV['SKIP_FULL_TEST']
+    skip "Skipping because #{CSV_PATH} does not exist" unless File.exist?(CSV_PATH)
 
-        postcode = UKPostcode.parse(outcode + incode)
+    CSV.foreach(CSV_PATH, headers: [:postcode, :country]) do |row|
+      outcode = row[:postcode][0,4].strip
+      incode  = row[:postcode][4,3].strip
+      country = COUNTRIES.fetch(row[:country])
 
-        postcode.wont_be_nil
-        postcode.outcode.must_equal outcode
-        postcode.incode.must_equal incode
-        postcode.country.must_equal country
-      end
-    else
-      skip "Skipping because #{CSV_PATH} does not exist"
+      postcode = UKPostcode.parse(outcode + incode)
+
+      postcode.wont_be_nil
+      postcode.outcode.must_equal outcode
+      postcode.incode.must_equal incode
+      postcode.country.must_equal country
     end
   end
 end
