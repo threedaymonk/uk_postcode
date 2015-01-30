@@ -1,4 +1,4 @@
 *.gem
 Gemfile.lock
 /data/
-/test/data/
+/spec/data/

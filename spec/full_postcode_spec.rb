@@ -1,4 +1,3 @@
-require_relative "./test_helper"
 require "csv"
 require "uk_postcode"
 
@@ -14,7 +13,7 @@ describe "Full set of postcodes" do
     'M83000003' => :isle_of_man
   }
 
-  it "should correctly parse and find the country of every extant postcode" do
+  it "parses and finds the country of every extant postcode" do
     skip "Skipping because SKIP_FULL_TEST was set" if ENV['SKIP_FULL_TEST']
     skip "Skipping because #{CSV_PATH} does not exist" unless File.exist?(CSV_PATH)
 
@@ -25,10 +24,10 @@ describe "Full set of postcodes" do
 
       postcode = UKPostcode.parse(outcode + incode)
 
-      postcode.wont_be_nil
-      postcode.outcode.must_equal outcode
-      postcode.incode.must_equal incode
-      postcode.country.must_equal country
+      expect(postcode).not_to be_nil
+      expect(postcode.outcode).to eq(outcode)
+      expect(postcode.incode).to eq(incode)
+      expect(postcode.country).to eq(country)
     end
   end
 end

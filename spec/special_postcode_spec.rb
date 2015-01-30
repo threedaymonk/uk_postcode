@@ -1,7 +1,6 @@
-require_relative "./test_helper"
 require "uk_postcode"
 
-describe "Special postcodes" do
+describe UKPostcode do
   # Special postcodes listed in http://en.wikipedia.org/wiki/UK_postcode
   SPECIAL = %w[
     SW1A 0AA
@@ -40,11 +39,11 @@ describe "Special postcodes" do
   ]
 
   SPECIAL.each_slice(2) do |outcode, incode|
-    it "should correctly handle special postcode #{outcode} #{incode}" do
-      postcode = UKPostcode.parse(outcode + incode)
-      postcode.wont_be_nil
-      postcode.outcode.must_equal outcode
-      postcode.incode.must_equal incode
+    it "handles special postcode #{outcode} #{incode}" do
+      postcode = described_class.parse(outcode + incode)
+      expect(postcode).not_to be_nil
+      expect(postcode.outcode).to eq(outcode)
+      expect(postcode.incode).to eq(incode)
     end
   end
 end
