@@ -2,8 +2,10 @@ require "uk_postcode/abstract_postcode"
 
 module UKPostcode
 
-  # InvalidPostcode is a singleton null object returned by UKPostcode.parse
-  # when it is unable to parse the supplied postcode.
+  # An InvalidPostcode is returned by UKPostcode.parse when it is unable to
+  # parse the supplied postcode. As it returns the input verbatim via #to_s,
+  # it's possible to do UKPostcode.parse(s).to_s and get either a normalised
+  # postcode (if possible) or the original user input.
   #
   # The sub-fields of the postcode (outcode, area, etc.) are all nil.
   #
