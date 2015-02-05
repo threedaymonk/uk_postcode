@@ -100,6 +100,38 @@ pc.to_s    # => "Not valid"
 pc.country # => :unknown
 ```
 
+## Tips for Rails
+
+You can normalise postcodes on assignment by overriding a setter method (this
+assumes that you have a `postcode` field on the model):
+
+```ruby
+def postcode=(str)
+  super UKPostcode.parse(str).to_s
+end
+```
+
+Invalid postcodes are parsed to instances of `InvalidPostcode`, whose `#to_s`
+method gives the original input, so an invalid postcode will be presented back
+to the user as originally entered.
+
+To validate, use something like this:
+
+```ruby
+class PostcodeValidator < ActiveModel::EachValidator
+  def validate_each(record, attribute, value)
+    ukpc = UKPostcode.parse(value)
+    unless ukpc.valid? && ukpc.full?
+      record.errors[attribute] << "not recognised as a UK postcode"
+    end
+  end
+end
+
+class Address
+  validates :postcode, presence: true, postcode: true
+end
+```
+
 ## For users of version 1.x
 
 The interface has changed significantly, so code that worked with version 1.x
