@@ -24,5 +24,14 @@ module UKPostcode
     def to_s
       @input
     end
+
+    def full?
+      false
+    end
+
+    def valid?
+      false
+    end
+
   end
 end

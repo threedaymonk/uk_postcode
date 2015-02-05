@@ -22,11 +22,11 @@ module UKPostcode
     end
 
     def full?
-      false
+      raise NotImplemented
     end
 
     def valid?
-      false
+      raise NotImplemented
     end
 
     def country
