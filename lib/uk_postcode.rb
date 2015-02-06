@@ -1,9 +1,3 @@
-require "uk_postcode/version"
-require "uk_postcode/geographic_postcode"
-require "uk_postcode/giro_postcode"
-require "uk_postcode/invalid_postcode"
-require "uk_postcode/parser_chain"
-
 module UKPostcode
   DEFAULT_PARSER_CHAIN = ParserChain.new(
     GiroPostcode, GeographicPostcode, InvalidPostcode
