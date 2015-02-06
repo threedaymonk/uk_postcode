@@ -17,3 +17,12 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+The regular expressions in lookup.rb are generated from the ONS Postcode
+Directory under the terms of the Open Government Licence (OGL). The following
+source accreditation is given to fulfil the terms of this licence.
+
+Contains public sector information licensed under the Open Government Licence
+v3.0.
+
+http://www.ons.gov.uk/ons/guide-method/geography/products/postcode-directories/-nspp-/index.html

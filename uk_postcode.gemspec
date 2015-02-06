@@ -1,7 +1,5 @@
-lib = File.expand_path('../lib/', __FILE__)
-$:.unshift lib unless $:.include?(lib)
-
-require 'uk_postcode/version'
+$LOAD_PATH.unshift File.expand_path("../lib", __FILE__)
+require "uk_postcode/version"
 
 Gem::Specification.new do |s|
   s.name         = "uk_postcode"
@@ -13,10 +11,13 @@ Gem::Specification.new do |s|
   s.homepage     = "http://github.com/threedaymonk/uk_postcode"
   s.license      = "MIT"
   s.has_rdoc     = true
-  s.files        = Dir["{Rakefile,README.md,{bin,test,lib}/**/*}"] -
-                   ["test/samples/large/**/*"]
+  s.files        = Dir["{README.md,COPYING.txt,{bin,test,lib}/**/*}"] -
+                   Dir["test/data/**/*"]
   s.executables  = Dir["bin/**"].map { |f| File.basename(f) }
-  s.require_path = 'lib'
+  s.require_path = "lib"
 
   s.add_development_dependency "rake", "~> 0"
+  s.add_development_dependency "rspec", "~> 3"
+
+  s.required_ruby_version = ">= 1.9.2"
 end

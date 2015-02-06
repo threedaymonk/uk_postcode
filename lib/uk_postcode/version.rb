@@ -1,3 +1,3 @@
-class UKPostcode
-  VERSION = "1.0.1"
+module UKPostcode
+  VERSION = "2.0.0.beta"
 end

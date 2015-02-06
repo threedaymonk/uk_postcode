@@ -1,4 +1,4 @@
-test/samples/large
 *.gem
 Gemfile.lock
-Code-Point Open
+/data/
+/spec/data/
