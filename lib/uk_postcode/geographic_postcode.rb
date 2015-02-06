@@ -1,6 +1,3 @@
-require "uk_postcode/country_finder"
-require "uk_postcode/abstract_postcode"
-
 module UKPostcode
 
   # GeographicPostcode models the majority of postcodes, containing an area,
