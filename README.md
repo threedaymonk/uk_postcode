@@ -215,16 +215,16 @@ The first non-nil object is returned.
 is always returned.
 
 To add an additional class, subclass `AbstractPostcode`, implement the abstract
-methods, and instantiate your own `ParserChain` instance.
+methods, and instantiate your own `ParserChain`.
 
 ## Licensing
 
 You may use this library according to the terms of the MIT License; see
 COPYING.txt for details.
 
-The regular expressions in `lookup.rb` are derived from the ONS Postcode
-Directory according to the terms of the [Open Government
-Licence][onspd-lic].
+The regular expressions in `country_lookup.rb` are derived from the ONS
+Postcode Directory according to the terms of the
+[Open Government Licence][onspd-lic].
 
 > Under the terms of the Open Government Licence (OGL) […] anyone wishing to
 > use or re-use ONS material, whether commercially or privately, may do so
