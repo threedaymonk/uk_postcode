@@ -171,6 +171,52 @@ files and run the tests via Rake instead:
 $ rake
 ```
 
+## Occasionally asked questions
+
+### Does it support Father Christmas's postcode?
+
+No. The old postcode was SAN TA1; the current one is [XM4 5HQ][santa].
+(XMAS HQ, geddit?)
+For most people, these probably aren't useful, as they don't correspond to
+actual locations, and are only used by Royal Mail internally.
+
+See "Adding additional formats" if you'd like to support this.
+
+### Does it support BFPO?
+
+No. They're not really postcodes, though they serve a similar purpose.
+Some of them are abroad; some of them are on boats that move around; some of
+them are ephemeral and exists only for particular operations.
+This library has been designed with the assumption that most people won't want
+to handle BFPO codes, and that those that do can do so explicitly.
+
+See "Adding additional formats" if you'd like to support them.
+
+The new [BF1 format][bfpo] postcodes *can* be parsed, although their location
+is always unknown.
+
+## Adding additional formats
+
+Parsing is implemented via the `ParserChain` class, which attempts to parse
+the supplied text via each parser in turn.
+The `UKPostcode.parse` method is effectively a thin wrapper that does this:
+
+```ruby
+chain = ParserChain.new(GiroPostcode, GeographicPostcode, InvalidPostcode)
+chain.parse(str)
+```
+
+Each class passed to `ParserChain.new` must implement a class method
+`parse(str)` and return either a postcode object (see `AbstractPostcode`) or
+nil.
+The first non-nil object is returned.
+
+`InvalidPostcode` is at the end of the chain to ensure that a postcode object
+is always returned.
+
+To add an additional class, subclass `AbstractPostcode`, implement the abstract
+methods, and instantiate your own `ParserChain` instance.
+
 ## Licensing
 
 You may use this library according to the terms of the MIT License; see
@@ -191,6 +237,8 @@ data in the ONSPD, this is not used to generate the regular expressions.
 Fortunately, Northern Ireland postcodes are very simple: they all start with
 `BT`!
 
+[bfpo]: https://www.gov.uk/government/publications/british-forces-post-office-locations
 [mys]: http://parlvid.mysociety.org/os/
 [onspd]: http://www.ons.gov.uk/ons/guide-method/geography/products/postcode-directories/-nspp-/index.html
 [onspd-lic]: http://www.ons.gov.uk/ons/guide-method/geography/beginner-s-guide/licences/index.html
+[santa]: http://services.royalmail.com/santa-schools
