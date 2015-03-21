@@ -6,4 +6,13 @@ RSpec::Core::RakeTask.new do |t|
   t.verbose = false
 end
 
+namespace :spec do
+  desc "Run the specs skipping the (slow) full postcode spec"
+  task quick: [:skip_full, :spec]
+
+  task :skip_full do
+    ENV['SKIP_FULL_TEST'] = 'true'
+  end
+end
+
 task :default => [:spec]
