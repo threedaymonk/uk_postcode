@@ -29,6 +29,10 @@ module UKPostcode
       raise NotImplemented
     end
 
+    def full_valid?
+      full? && valid?
+    end
+
     def country
       :unknown
     end

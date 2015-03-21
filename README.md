@@ -23,52 +23,54 @@ Parse and extract sections of a full postcode:
 
 ```ruby
 pc = UKPostcode.parse("W1A 2AB")
-pc.valid?   # => true
-pc.full?    # => true
-pc.outcode  # => "W1A"
-pc.incode   # => "2AB"
-pc.area     # => "W"
-pc.district # => "1A"
-pc.sector   # => "2"
-pc.unit     # => "AB"
+pc.valid?      # => true
+pc.full?       # => true
+pc.full_valid? # => true
+pc.outcode     # => "W1A"
+pc.incode      # => "2AB"
+pc.area        # => "W"
+pc.district    # => "1A"
+pc.sector      # => "2"
+pc.unit        # => "AB"
 ```
 
 Or of a partial postcode:
 
 ```ruby
 pc = UKPostcode.parse("W1A")
-pc.valid?   # => true
-pc.full?    # => false
-pc.outcode  # => "W1A"
-pc.incode   # => nil
-pc.area     # => "W"
-pc.district # => "1A"
-pc.sector   # => nil
-pc.unit     # => nil
+pc.valid?      # => true
+pc.full?       # => false
+pc.full_valid? # => false
+pc.outcode     # => "W1A"
+pc.incode      # => nil
+pc.area        # => "W"
+pc.district    # => "1A"
+pc.sector      # => nil
+pc.unit        # => nil
 ```
 
 Postcodes are converted to a normal or canonical form:
 
 ```ruby
 pc = UKPostcode.parse("w1a1aa")
-pc.valid?   # => true
-pc.area     # => "W"
-pc.district # => "1A"
-pc.sector   # => "1"
-pc.unit     # => "AA
-pc.to_s     # => "W1A 1AA"
+pc.valid?      # => true
+pc.area        # => "W"
+pc.district    # => "1A"
+pc.sector      # => "1"
+pc.unit        # => "AA
+pc.to_s        # => "W1A 1AA"
 ```
 
 And mistakes with I/1 and O/0 are corrected:
 
 ```ruby
 pc = UKPostcode.parse("WIA OAA")
-pc.valid?   # => true
-pc.area     # => "W"
-pc.district # => "1A"
-pc.sector   # => "0"
-pc.unit     # => "AA
-pc.to_s     # => "W1A 0AA"
+pc.valid?      # => true
+pc.area        # => "W"
+pc.district    # => "1A"
+pc.sector      # => "0"
+pc.unit        # => "AA
+pc.to_s        # => "W1A 0AA"
 ```
 
 Find the country of a full or partial postcode (if possible: some outcodes span
@@ -93,11 +95,12 @@ Invalid postcodes:
 
 ```ruby
 pc = UKPostcode.parse("Not Valid")
-pc.valid?  # => false
-pc.full?   # => false
-pc.area    # => nil
-pc.to_s    # => "Not valid"
-pc.country # => :unknown
+pc.valid?      # => false
+pc.full?       # => false
+pc.full_valid? # => false
+pc.area        # => nil
+pc.to_s        # => "Not valid"
+pc.country     # => :unknown
 ```
 
 ## Tips for Rails
@@ -121,7 +124,7 @@ To validate, use something like this:
 class PostcodeValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     ukpc = UKPostcode.parse(value)
-    unless ukpc.valid? && ukpc.full?
+    unless ukpc.full_valid?
       record.errors[attribute] << "not recognised as a UK postcode"
     end
   end

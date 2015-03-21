@@ -256,6 +256,12 @@ describe UKPostcode::GeographicPostcode do
     end
   end
 
+  describe "#full_valid?" do
+    it "is true if outcode and incode are given" do
+      expect(described_class.new("W", "1A", "1", "AA")).to be_full_valid
+    end
+  end
+
   describe "#country" do
     it "looks up the country of a full postcode" do
       expect(described_class.new("EH", "8", "8", "DX").country).to eq(:scotland)
