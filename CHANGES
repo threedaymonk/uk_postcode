@@ -1,0 +1,29 @@
+2.0.0 (2015-02-08)
+
+* Significant breaking API change: UKPostcode.new -> UKPostcode.parse.
+* Fix: gem now builds on Ruby 1.9.
+* Moved tests to RSpec.
+* Added #country method to return the country of a postcode (where known).
+* Now testing with the ONS Postcode Database (includes Northern Ireland).
+
+1.0.1 (2014-12-14)
+
+* Made licensing (MIT) explicit.
+* Fix: Now works with Ruby 1.9.
+
+1.0.0 (2010-11-05)
+
+* Fix: outcodes in the form [A-Z]1[0-9] are now parsed correctly.
+
+0.0.3 (2010-06-01)
+
+* Automatically correct more 0s that should be Os.
+
+0.0.2 (2010-01-09)
+
+* Fix: some real postcodes were not considered to be valid.
+* Correct mistaken I/O/1/0 inputs.
+
+0.0.1 (2010-01-06)
+
+* Initial release.
