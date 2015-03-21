@@ -1,7 +1,7 @@
 require "uk_postcode/geographic_postcode"
 
 describe UKPostcode::GeographicPostcode do
-  describe "parse" do
+  describe ".parse" do
     it "parses a full postcode" do
       pc = described_class.parse("W1A 1AA")
       expect(pc).to be_instance_of(described_class)
@@ -61,7 +61,7 @@ describe UKPostcode::GeographicPostcode do
       expect(pc).to be_nil
     end
 
-    describe "single-letter area" do
+    context "with single-letter area" do
       it "extracts area without trailing I from outcode" do
         pc = described_class.parse("B11")
         expect(pc.area).to eq("B")
@@ -81,7 +81,7 @@ describe UKPostcode::GeographicPostcode do
       end
     end
 
-    describe "trailing O in area" do
+    context "with trailing O in area" do
       it "extracts area with trailing O from outcode" do
         pc = described_class.parse("CO1")
         expect(pc.area).to eq("CO")
@@ -101,7 +101,7 @@ describe UKPostcode::GeographicPostcode do
       end
     end
 
-    describe "tricky postcodes" do
+    context "with tricky postcodes" do
       it "parses B11 1LL" do
         pc = described_class.parse("B111LL")
         expect(pc.area).to eq("B")
@@ -152,7 +152,7 @@ describe UKPostcode::GeographicPostcode do
     end
   end
 
-  describe "area" do
+  describe "#area" do
     it "is capitalised" do
       expect(described_class.new("w", "1a", "1", "aa").area).to eq("W")
     end
@@ -166,7 +166,7 @@ describe UKPostcode::GeographicPostcode do
     end
   end
 
-  describe "district" do
+  describe "#district" do
     it "is capitalised" do
       expect(described_class.new("w", "1a", "1", "aa").district).to eq("1A")
     end
@@ -180,7 +180,7 @@ describe UKPostcode::GeographicPostcode do
     end
   end
 
-  describe "sector" do
+  describe "#sector" do
     it "corrects O to 0" do
       expect(described_class.new("AB", "1", "O", "DN").sector).to eq("0")
     end
@@ -190,7 +190,7 @@ describe UKPostcode::GeographicPostcode do
     end
   end
 
-  describe "unit" do
+  describe "#unit" do
     it "is capitalised" do
       expect(described_class.new("w", "1a", "1", "aa").unit).to eq("AA")
     end
@@ -198,7 +198,7 @@ describe UKPostcode::GeographicPostcode do
     # Note: neither I nor O appear in units
   end
 
-  describe "outcode" do
+  describe "#outcode" do
     it "is generated from area and district" do
       expect(described_class.new("W", "1A").outcode).to eq("W1A")
     end
@@ -208,7 +208,7 @@ describe UKPostcode::GeographicPostcode do
     end
   end
 
-  describe "incode" do
+  describe "#incode" do
     it "is generated from sector and unit" do
       expect(described_class.new("W", "1A", "1", "AA").incode).to eq("1AA")
     end
@@ -222,7 +222,7 @@ describe UKPostcode::GeographicPostcode do
     end
   end
 
-  describe "to_s" do
+  describe "#to_s" do
     it "generates a full postcode" do
       expect(described_class.new("W", "1A", "1", "AA").to_s).to eq("W1A 1AA")
     end
@@ -240,7 +240,7 @@ describe UKPostcode::GeographicPostcode do
     end
   end
 
-  describe "full?" do
+  describe "#full?" do
     it "is true if outcode and incode are given" do
       expect(described_class.new("W", "1A", "1", "AA")).to be_full
     end
@@ -250,13 +250,13 @@ describe UKPostcode::GeographicPostcode do
     end
   end
 
-  describe "valid?" do
+  describe "#valid?" do
     it "is true" do
       expect(described_class.new("W", "1A", "1", "AA")).to be_valid
     end
   end
 
-  describe "country" do
+  describe "#country" do
     it "looks up the country of a full postcode" do
       expect(described_class.new("EH", "8", "8", "DX").country).to eq(:scotland)
     end

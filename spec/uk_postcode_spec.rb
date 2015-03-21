@@ -1,7 +1,7 @@
 require "uk_postcode"
 
 describe UKPostcode do
-  describe "parse" do
+  describe ".parse" do
     it "returns a Giro postcode" do
       subject = described_class.parse("GIR 0AA")
       expect(subject).to be_instance_of(UKPostcode::GiroPostcode)
