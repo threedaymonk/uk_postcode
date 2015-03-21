@@ -11,9 +11,7 @@ Gem::Specification.new do |s|
   s.homepage     = "http://github.com/threedaymonk/uk_postcode"
   s.license      = "MIT"
   s.has_rdoc     = true
-  s.files        = Dir["{README.md,COPYING.txt,CHANGES,{bin,test,lib}/**/*}"] -
-                   Dir["test/data/**/*"]
-  s.executables  = Dir["bin/**"].map { |f| File.basename(f) }
+  s.files        = Dir["README.md", "COPYING.txt", "CHANGES", "lib/**/*"]
   s.require_path = "lib"
 
   s.add_development_dependency "rake", "~> 0"
