@@ -153,7 +153,7 @@ Specifically:
 In your `Gemfile`:
 
 ```ruby
-gem "uk_postcode", "~> 2.0.0.alpha"
+gem "uk_postcode", "~> 2.1.0"
 ```
 
 ## Testing
