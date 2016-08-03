@@ -5,8 +5,9 @@ module UKPostcode
     end
 
     def parse(str)
+      postcode = str.to_s
       @parsers.each do |klass|
-        parsed = klass.parse(str)
+        parsed = klass.parse(postcode)
         return parsed if parsed
       end
       nil
