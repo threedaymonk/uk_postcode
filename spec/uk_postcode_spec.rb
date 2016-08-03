@@ -14,6 +14,12 @@ describe UKPostcode do
       expect(subject.to_s).to eq("EH8 8DX")
     end
 
+    it "returns invalid instance for nil" do
+      subject = described_class.parse(nil)
+      expect(subject).to be_instance_of(UKPostcode::InvalidPostcode)
+      expect(subject.to_s).to eq("")
+    end
+    
     it "returns invalid instance for a blank postcode" do
       subject = described_class.parse("")
       expect(subject).to be_instance_of(UKPostcode::InvalidPostcode)
