@@ -1,3 +1,7 @@
+2.1.1 (2016-08-28)
+
+* Updated country lookup using latest ONS Postcode Database (May 2016).
+
 2.1.0 (2015-03-21)
 
 * Updated country lookup using latest ONS Postcode Database (November 2014).
