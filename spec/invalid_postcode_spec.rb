@@ -4,6 +4,9 @@ describe UKPostcode::InvalidPostcode do
   let(:subject) { described_class.new("anything") }
 
   describe ".parse" do
+    it 'can handle nil' do
+      pc = described_class.parse(nil)
+      expect(pc).to be_instance_of(described_class)
     it "parses anything" do
       pc = described_class.parse("Any old junk")
       expect(pc).to be_instance_of(described_class)
