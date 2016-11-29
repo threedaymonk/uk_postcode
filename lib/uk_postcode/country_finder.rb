@@ -1,5 +1,3 @@
-require 'uk_postcode/country_lookup'
-
 module UKPostcode
   module CountryFinder
     module_function

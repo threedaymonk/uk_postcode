@@ -1,6 +1,3 @@
-require "singleton"
-require "uk_postcode/abstract_postcode"
-
 module UKPostcode
 
   # GiroPostcode models the single, peculiar GIR 0AA postcode originally used

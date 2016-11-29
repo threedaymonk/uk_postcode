@@ -1,5 +1,3 @@
-require "uk_postcode/abstract_postcode"
-
 module UKPostcode
 
   # An InvalidPostcode is returned by UKPostcode.parse when it is unable to
