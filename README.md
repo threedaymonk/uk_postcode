@@ -196,7 +196,7 @@ See "Adding additional formats" if you'd like to support this.
 
 No. They're not really postcodes, though they serve a similar purpose.
 Some of them are abroad; some of them are on boats that move around; some of
-them are ephemeral and exists only for particular operations.
+them are ephemeral and exist only for particular operations.
 This library has been designed with the assumption that most people won't want
 to handle BFPO codes, and that those that do can do so explicitly.
 
