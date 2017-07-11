@@ -1,4 +1,4 @@
-ONSPD_URL=http://parlvid.mysociety.org/os/ONSPD_MAY_2016_csv.zip
+ONSPD_URL=http://parlvid.mysociety.org/os/ONSPD_MAY_2017.zip
 
 .PHONY: spec clean
 
