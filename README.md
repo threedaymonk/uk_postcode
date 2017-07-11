@@ -13,6 +13,13 @@ Features:
   Ireland, the Channel Islands, and the Isle of Man.
 * Finds the country corresponding to a postcode, where possible.
 
+**Note**: There's a distinction between validity and existence. This library
+validates the *format* of a postcode, but not whether it actually currently
+refers to a location.
+
+By analogy, `name@somedomainthatdoesnotexist.com` is a valid email address in
+terms of format, but you can't successfully deliver an email to it.
+
 ## Usage
 
 ```ruby
