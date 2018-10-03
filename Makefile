@@ -1,4 +1,4 @@
-ONSPD_URL=http://parlvid.mysociety.org/os/ONSPD_MAY_2017.zip
+ONSPD_URL=http://parlvid.mysociety.org/os/ONSPD/2018-08.zip
 
 .PHONY: spec clean
 
@@ -11,7 +11,7 @@ data/onspd.zip:
 
 data/onspd.csv: data/onspd.zip
 	unzip -d data/onspd $^ && \
-		cut -d, -f 1,15 data/onspd/Data/*.csv > $@.tmp
+		cut -d, -f 1,17 data/onspd/Data/*.csv > $@.tmp
 		mv $@.tmp $@
 
 data/postcodes.csv: data/onspd.csv
