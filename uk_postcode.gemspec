@@ -10,7 +10,6 @@ Gem::Specification.new do |s|
   s.email        = "pbattley@gmail.com"
   s.homepage     = "http://github.com/threedaymonk/uk_postcode"
   s.license      = "MIT"
-  s.has_rdoc     = true
   s.files        = Dir["README.md", "COPYING.txt", "CHANGES", "lib/**/*"]
   s.require_path = "lib"
 
