@@ -1,4 +1,4 @@
-ONSPD_URL=http://parlvid.mysociety.org/os/ONSPD/2018-08.zip
+ONSPD_URL=http://parlvid.mysociety.org/os/ONSPD/2019-05.zip
 
 .PHONY: spec clean
 
