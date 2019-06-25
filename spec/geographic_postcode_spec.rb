@@ -9,6 +9,8 @@ describe UKPostcode::GeographicPostcode do
       expect(pc.district).to eq("1A")
       expect(pc.sector).to eq("1")
       expect(pc.unit).to eq("AA")
+      expect(pc.full_valid?).to eq true
+      expect(pc.full?).to eq true
     end
 
     it "parses a postcode with no unit" do
@@ -18,6 +20,8 @@ describe UKPostcode::GeographicPostcode do
       expect(pc.district).to eq("1A")
       expect(pc.sector).to eq("1")
       expect(pc.unit).to be_nil
+      expect(pc.full_valid?).to eq false
+      expect(pc.full?).to eq false
     end
 
     it "parses an outcode" do
@@ -27,6 +31,8 @@ describe UKPostcode::GeographicPostcode do
       expect(pc.district).to eq("1A")
       expect(pc.sector).to be_nil
       expect(pc.unit).to be_nil
+      expect(pc.full_valid?).to eq false
+      expect(pc.full?).to eq false
     end
 
     it "parses an area" do
@@ -36,6 +42,8 @@ describe UKPostcode::GeographicPostcode do
       expect(pc.district).to be_nil
       expect(pc.sector).to be_nil
       expect(pc.unit).to be_nil
+      expect(pc.full_valid?).to eq false
+      expect(pc.full?).to eq false
     end
 
     it "handles extra spaces" do

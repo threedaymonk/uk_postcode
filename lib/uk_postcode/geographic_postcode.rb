@@ -65,7 +65,7 @@ module UKPostcode
     # Returns true if the postcode is a valid full postcode (e.g. W1A 1AA)
     #
     def full?
-      area && district && sector && unit && true
+      [area, district, sector, unit].all?
     end
 
     # Any geographic postcode is assumed to be valid
