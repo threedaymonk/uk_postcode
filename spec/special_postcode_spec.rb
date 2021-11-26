@@ -2,7 +2,7 @@ require "uk_postcode"
 
 describe UKPostcode do
   # Special postcodes listed in http://en.wikipedia.org/wiki/UK_postcode
-  SPECIAL = %w[
+  special = %w[
     SW1A 0AA
     SW1A 1AA
     SW1A 2AA
@@ -38,7 +38,7 @@ describe UKPostcode do
     W1F  9DJ
   ]
 
-  SPECIAL.each_slice(2) do |outcode, incode|
+  special.each_slice(2) do |outcode, incode|
     it "handles special postcode #{outcode} #{incode}" do
       postcode = described_class.parse(outcode + incode)
       expect(postcode).not_to be_nil
