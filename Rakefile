@@ -3,6 +3,8 @@ require "rspec/core/rake_task"
 
 ONSPD_DATE = "2020-05"
 
+SAMPLE_PERCENT = ENV.fetch("SAMPLE_PERCENT", 1).to_i
+
 CLEAN.include FileList["data/**/*", "spec/data/**/*"]
 
 file "data/#{ONSPD_DATE}.zip" do |t|
@@ -32,11 +34,15 @@ file "data/postcodes.csv" => "data/onspd.csv" do |t|
   mv tempname, t.name
 end
 
-file "spec/data/postcodes.csv" => "data/postcodes.csv" do |t|
-  csvfile, = t.prerequisites
+file "spec/data/postcodes_#{SAMPLE_PERCENT}.csv" => "data/postcodes.csv" do |t|
+  src, = t.prerequisites
+  sample_probability = SAMPLE_PERCENT / 100.0
 
-  mkdir_p File.dirname(t.name)
-  cp csvfile, t.name
+  File.open(t.name, "w") do |out|
+    File.open(src).each_line do |line|
+      out << line if rand <= sample_probability
+    end
+  end
 end
 
 file "lib/uk_postcode/country_lookup.rb" => "data/postcodes.csv" do |t|
@@ -53,14 +59,9 @@ RSpec::Core::RakeTask.new do |t|
   t.verbose = false
 end
 
-namespace :spec do
-  desc "Run the specs skipping the (slow) full postcode spec"
-  task :quick do
-    ENV['SKIP_FULL_TEST'] = 'true'
-    task(:spec).invoke
-  end
-end
-
-task spec: ["spec/data/postcodes.csv", "lib/uk_postcode/country_lookup.rb"]
+task spec: [
+  "spec/data/postcodes_#{SAMPLE_PERCENT}.csv",
+  "lib/uk_postcode/country_lookup.rb"
+]
 
 task :default => [:spec]

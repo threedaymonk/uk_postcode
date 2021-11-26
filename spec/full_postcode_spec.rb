@@ -2,7 +2,9 @@ require "csv"
 require "uk_postcode"
 
 describe "Full set of postcodes" do
-  CSV_PATH = File.expand_path("../data/postcodes.csv", __FILE__)
+  SAMPLE_PERCENT = ENV.fetch("SAMPLE_PERCENT", 1).to_i
+
+  CSV_PATH = File.expand_path("data/postcodes_#{SAMPLE_PERCENT}.csv", __dir__)
 
   COUNTRIES = {
     'E92000001' => :england,
@@ -14,9 +16,6 @@ describe "Full set of postcodes" do
   }
 
   def each_postcode
-    skip "Skipping because SKIP_FULL_TEST was set" if ENV['SKIP_FULL_TEST']
-    skip "Skipping because #{CSV_PATH} does not exist" unless File.exist?(CSV_PATH)
-
     CSV.foreach(CSV_PATH, headers: [:postcode, :country]) do |row|
       country = COUNTRIES.fetch(row[:country])
       outcode = row[:postcode][0, 4].strip
