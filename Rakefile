@@ -1,19 +1,20 @@
 require "rake/clean"
 require "rspec/core/rake_task"
 
-ONSPD_URL = "http://parlvid.mysociety.org/os/ONSPD/2020-05.zip"
+ONSPD_DATE = "2020-05"
 
 CLEAN.include FileList["data/**/*", "spec/data/**/*"]
 
-file "data/onspd.zip" do |t|
+file "data/#{ONSPD_DATE}.zip" do |t|
+  url = "http://parlvid.mysociety.org/os/ONSPD/#{ONSPD_DATE}.zip"
   tempname = "#{t.name}.tmp"
 
   mkdir_p File.dirname(t.name)
-  sh %{curl -L -o "#{tempname}" "#{ONSPD_URL}"}
+  sh %{curl -L -o "#{tempname}" "#{url}"}
   mv tempname, t.name
 end
 
-file "data/onspd.csv" => "data/onspd.zip" do |t|
+file "data/onspd.csv" => "data/#{ONSPD_DATE}.zip" do |t|
   zipfile, = t.prerequisites
   tempname = "#{t.name}.tmp"
 
