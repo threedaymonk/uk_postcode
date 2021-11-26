@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.files        = Dir["README.md", "COPYING.txt", "CHANGES", "lib/**/*"]
   s.require_path = "lib"
 
-  s.add_development_dependency "rake", "~> 0"
+  s.add_development_dependency "rake", "~> 13"
   s.add_development_dependency "rspec", "~> 3"
 
   s.required_ruby_version = ">= 1.9.2"

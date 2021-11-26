@@ -168,18 +168,14 @@ gem "uk_postcode", "~> 2.1.0"
 To run the test suite:
 
 ```sh
-$ make
+$ rake
 ```
 
 The full list of UK postcodes is not included in the repository due to its
 size, but will be fetched automatically from [mySociety][mys].
 
 If you are running an automatic build process, please find a way to cache these
-files and run the tests via Rake instead:
-
-```
-$ rake
-```
+files between runs.
 
 ## Occasionally asked questions
 
