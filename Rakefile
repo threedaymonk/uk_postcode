@@ -1,7 +1,7 @@
 require "rake/clean"
 require "rspec/core/rake_task"
 
-ONSPD_DATE = "2020-05"
+ONSPD_DATE = "2021-08"
 
 SAMPLE_PERCENT = ENV.fetch("SAMPLE_PERCENT", 1).to_i
 
