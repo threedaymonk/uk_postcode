@@ -16,30 +16,33 @@ describe "Full set of postcodes" do
       'N92000002' => :northern_ireland,
       'S92000003' => :scotland,
       'W92000004' => :wales,
-      'L93000001' => :channel_islands,
+      'J92000005' => :jersey,
+      'G92000006' => :guernsey,
       'M83000003' => :isle_of_man
     }
   }
 
   let(:each_postcode) {
     ->(&blk) {
-      CSV.foreach(csv_path, headers: [:postcode, :country]) do |row|
+      CSV.foreach(csv_path, headers: [:postcode, :town, :country]) do |row|
         country = countries.fetch(row[:country])
+        town = row[:town]
         outcode = row[:postcode][0, 4].strip
         incode  = row[:postcode][4, 3].strip
-        blk.call outcode, incode, country
+        blk.call outcode, incode, country, town
       end
     }
   }
 
   it "parses and finds the country of a postcode" do
-    each_postcode.call do |outcode, incode, country|
+    each_postcode.call do |outcode, incode, country, town|
       postcode = UKPostcode.parse(outcode + incode)
 
       expect(postcode).not_to be_nil
       expect(postcode.outcode).to eq(outcode)
       expect(postcode.incode).to eq(incode)
       expect(postcode.country).to eq(country)
+      expect(postcode.town).to eq(town)
     end
   end
 

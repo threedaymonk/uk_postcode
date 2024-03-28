@@ -1,4 +1,5 @@
 require "uk_postcode/country_finder"
+require "uk_postcode/town_finder"
 require "uk_postcode/abstract_postcode"
 
 module UKPostcode
@@ -83,6 +84,10 @@ module UKPostcode
     #
     def country
       CountryFinder.country(self)
+    end
+
+    def town
+      TownFinder.town(self)
     end
 
   private

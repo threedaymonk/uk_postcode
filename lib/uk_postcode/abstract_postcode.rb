@@ -36,5 +36,9 @@ module UKPostcode
     def country
       :unknown
     end
+
+    def town
+      :unknown
+    end
   end
 end
