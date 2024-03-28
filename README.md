@@ -98,6 +98,21 @@ Directory][onspd] and might not always be correct in a border region:
 > assigned to the area where the mean grid reference of all the addresses
 > within the postcode falls.
 
+Find the post-town of a full or partial postcode (if possible: some outcodes span post-towns)
+
+```ruby
+UKPostcode.parse("SW1A 2AA").town # => 'London'
+UKPostcode.parse("WD17").town # => 'Watford'
+UKPostcode.parse("BR2").town # => :multiple_possible_matches
+UKPostcode.parse("BR2 7HS").town # => 'Bromley'
+UKPostcode.parse("BR2 6HT").town # => 'Keston'
+UKPostcode.parse("SW77").town # => :unknown_outcode
+```
+
+Please note that the town returned is the post-town, and not a locality.
+Where outcodes are shared across multiple towns, the town returned might
+not always be correct.  Any perceived errors should be reported in Issues.
+
 Invalid postcodes:
 
 ```ruby
@@ -108,6 +123,7 @@ pc.full_valid? # => false
 pc.area        # => nil
 pc.to_s        # => "Not valid"
 pc.country     # => :unknown
+pc.town        # => :unknown
 ```
 
 ## Tips for Rails
