@@ -109,9 +109,9 @@ UKPostcode.parse("BR2 6HT").town # => 'Keston'
 UKPostcode.parse("SW77").town # => :unknown_outcode
 ```
 
-Please note that the town returned is the post-town, and not a locality.
-Where outcodes are shared across multiple towns, the town returned might
-not always be correct.  Any perceived errors should be reported in Issues.
+> Please note that the town returned is the post-town, and not a locality.
+> Where outcodes are shared across multiple towns, the town returned might
+> not always be correct.  Any perceived errors should be reported in Issues.
 
 Invalid postcodes:
 
