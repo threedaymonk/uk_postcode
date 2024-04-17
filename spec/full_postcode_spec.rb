@@ -16,8 +16,7 @@ describe "Full set of postcodes" do
       'N92000002' => :northern_ireland,
       'S92000003' => :scotland,
       'W92000004' => :wales,
-      'J92000005' => :jersey,
-      'G92000006' => :guernsey,
+      'L93000001' => :channel_islands,
       'M83000003' => :isle_of_man
     }
   }
