@@ -1,7 +1,7 @@
 require "rake/clean"
 require "rspec/core/rake_task"
 
-ONSPD_DATE = "2021-08"
+ONSPD_DATE = "2022-11"
 
 SAMPLE_PERCENT = ENV.fetch("SAMPLE_PERCENT", 1).to_i
 
@@ -45,23 +45,12 @@ file "spec/data/postcodes_#{SAMPLE_PERCENT}.csv" => "data/postcodes.csv" do |t|
   end
 end
 
-file "lib/uk_postcode/country_lookup.rb" => "data/postcodes.csv" do |t|
-  csvfile, = t.prerequisites
-  tempname = "#{t.name}.tmp"
-
-  sh %{ruby -I./lib tools/generate_country_lookup.rb "#{csvfile}" > "#{tempname}"}
-  mv tempname, t.name
-end
-
 desc "Run the specs."
 RSpec::Core::RakeTask.new do |t|
   t.pattern = "spec/**/*_spec.rb"
   t.verbose = false
 end
 
-task spec: [
-  "spec/data/postcodes_#{SAMPLE_PERCENT}.csv",
-  "lib/uk_postcode/country_lookup.rb"
-]
+task spec: "spec/data/postcodes_#{SAMPLE_PERCENT}.csv"
 
-task :default => [:spec]
+task :default => :spec

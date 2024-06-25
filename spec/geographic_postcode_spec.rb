@@ -5,45 +5,57 @@ describe UKPostcode::GeographicPostcode do
     it "parses a full postcode" do
       pc = described_class.parse("W1A 1AA")
       expect(pc).to be_instance_of(described_class)
-      expect(pc.area).to eq("W")
-      expect(pc.district).to eq("1A")
-      expect(pc.sector).to eq("1")
-      expect(pc.unit).to eq("AA")
-      expect(pc.full_valid?).to eq true
-      expect(pc.full?).to eq true
+
+      expect(pc).to have_attributes(
+        area: "W",
+        district: "1A",
+        sector: "1",
+        unit: "AA",
+        full?: true,
+        full_valid?: true
+      )
     end
 
     it "parses a postcode with no unit" do
       pc = described_class.parse("W1A 1")
       expect(pc).to be_instance_of(described_class)
-      expect(pc.area).to eq("W")
-      expect(pc.district).to eq("1A")
-      expect(pc.sector).to eq("1")
-      expect(pc.unit).to be_nil
-      expect(pc.full_valid?).to eq false
-      expect(pc.full?).to eq false
+
+      expect(pc).to have_attributes(
+        area: "W",
+        district: "1A",
+        sector: "1",
+        unit: nil,
+        full?: false,
+        full_valid?: false
+      )
     end
 
     it "parses an outcode" do
       pc = described_class.parse("W1A")
       expect(pc).to be_instance_of(described_class)
-      expect(pc.area).to eq("W")
-      expect(pc.district).to eq("1A")
-      expect(pc.sector).to be_nil
-      expect(pc.unit).to be_nil
-      expect(pc.full_valid?).to eq false
-      expect(pc.full?).to eq false
+
+      expect(pc).to have_attributes(
+        area: "W",
+        district: "1A",
+        sector: nil,
+        unit: nil,
+        full?: false,
+        full_valid?: false
+      )
     end
 
     it "parses an area" do
       pc = described_class.parse("W")
       expect(pc).to be_instance_of(described_class)
-      expect(pc.area).to eq("W")
-      expect(pc.district).to be_nil
-      expect(pc.sector).to be_nil
-      expect(pc.unit).to be_nil
-      expect(pc.full_valid?).to eq false
-      expect(pc.full?).to eq false
+
+      expect(pc).to have_attributes(
+        area: "W",
+        district: nil,
+        sector: nil,
+        unit: nil,
+        full?: false,
+        full_valid?: false
+      )
     end
 
     it "handles extra spaces" do
@@ -72,90 +84,96 @@ describe UKPostcode::GeographicPostcode do
     context "with single-letter area" do
       it "extracts area without trailing I from outcode" do
         pc = described_class.parse("B11")
-        expect(pc.area).to eq("B")
-        expect(pc.district).to eq("11")
+        expect(pc.outcode).to eq("B11")
       end
 
       it "extracts area without trailing I from full postcode with space" do
         pc = described_class.parse("E17 1AA")
-        expect(pc.area).to eq("E")
-        expect(pc.district).to eq("17")
+        expect(pc).to have_attributes(area: "E", district: "17")
       end
 
       it "extracts area without trailing I from full postcode without space" do
         pc = described_class.parse("E171AA")
-        expect(pc.area).to eq("E")
-        expect(pc.district).to eq("17")
+        expect(pc).to have_attributes(area: "E", district: "17")
       end
     end
 
     context "with trailing O in area" do
       it "extracts area with trailing O from outcode" do
         pc = described_class.parse("CO1")
-        expect(pc.area).to eq("CO")
-        expect(pc.district).to eq("1")
+        expect(pc).to have_attributes(area: "CO", district: "1")
       end
 
       it "extracts area with trailing O from full postcode with space" do
         pc = described_class.parse("CO1 1BT")
-        expect(pc.area).to eq("CO")
-        expect(pc.district).to eq("1")
+        expect(pc).to have_attributes(area: "CO", district: "1")
       end
 
       it "extracts area with trailing O from full postcode without space" do
         pc = described_class.parse("CO11BT")
-        expect(pc.area).to eq("CO")
-        expect(pc.district).to eq("1")
+        expect(pc).to have_attributes(area: "CO", district: "1")
       end
     end
 
     context "with tricky postcodes" do
       it "parses B11 1LL" do
         pc = described_class.parse("B111LL")
-        expect(pc.area).to eq("B")
-        expect(pc.district).to eq("11")
-        expect(pc.sector).to eq("1")
-        expect(pc.unit).to eq("LL")
+        expect(pc).to have_attributes(
+          area: "B",
+          district: "11",
+          sector: "1",
+          unit: "LL"
+        )
       end
 
       it "parses BII ILL" do
         pc = described_class.parse("BIIILL")
-        expect(pc.area).to eq("B")
-        expect(pc.district).to eq("11")
-        expect(pc.sector).to eq("1")
-        expect(pc.unit).to eq("LL")
+        expect(pc).to have_attributes(
+          area: "B",
+          district: "11",
+          sector: "1",
+          unit: "LL"
+        )
       end
 
       it "parses BB11 1DJ" do
         pc = described_class.parse("BB111DJ")
-        expect(pc.area).to eq("BB")
-        expect(pc.district).to eq("11")
-        expect(pc.sector).to eq("1")
-        expect(pc.unit).to eq("DJ")
+        expect(pc).to have_attributes(
+          area: "BB",
+          district: "11",
+          sector: "1",
+          unit: "DJ"
+        )
       end
 
       it "parses BBII IDJ" do
         pc = described_class.parse("BBIIIDJ")
-        expect(pc.area).to eq("BB")
-        expect(pc.district).to eq("11")
-        expect(pc.sector).to eq("1")
-        expect(pc.unit).to eq("DJ")
+        expect(pc).to have_attributes(
+          area: "BB",
+          district: "11",
+          sector: "1",
+          unit: "DJ"
+        )
       end
 
       it "parses B10 0JP" do
         pc = described_class.parse("B100JP")
-        expect(pc.area).to eq("B")
-        expect(pc.district).to eq("10")
-        expect(pc.sector).to eq("0")
-        expect(pc.unit).to eq("JP")
+        expect(pc).to have_attributes(
+          area: "B",
+          district: "10",
+          sector: "0",
+          unit: "JP"
+        )
       end
 
       it "parses BIO OJP" do
         pc = described_class.parse("BIOOJP")
-        expect(pc.area).to eq("B")
-        expect(pc.district).to eq("10")
-        expect(pc.sector).to eq("0")
-        expect(pc.unit).to eq("JP")
+        expect(pc).to have_attributes(
+          area: "B",
+          district: "10",
+          sector: "0",
+          unit: "JP"
+        )
       end
     end
   end
@@ -267,16 +285,6 @@ describe UKPostcode::GeographicPostcode do
   describe "#full_valid?" do
     it "is true if outcode and incode are given" do
       expect(described_class.new("W", "1A", "1", "AA")).to be_full_valid
-    end
-  end
-
-  describe "#country" do
-    it "looks up the country of a full postcode" do
-      expect(described_class.new("EH", "8", "8", "DX").country).to eq(:scotland)
-    end
-
-    it "looks up the country of a partial postcode" do
-      expect(described_class.new("W", "1A").country).to eq(:england)
     end
   end
 end

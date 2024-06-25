@@ -53,11 +53,5 @@ module UKPostcode
     def full?
       true
     end
-
-    # GIR 0AA is in England. (In Bootle, in fact.)
-    #
-    def country
-      :england
-    end
   end
 end

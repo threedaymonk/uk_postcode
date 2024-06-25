@@ -1,4 +1,3 @@
-require "uk_postcode/country_finder"
 require "uk_postcode/abstract_postcode"
 
 module UKPostcode
@@ -72,17 +71,6 @@ module UKPostcode
     #
     def valid?
       true
-    end
-
-    # Find the country associated with the postcode. Possible values are
-    # :england, :scotland, :wales, :northern_ireland, :isle_of_man,
-    # :channel_islands, or :unknown.
-    #
-    # Note that, due to limitations in the underlying data, the country might
-    # not always be correct in border regions.
-    #
-    def country
-      CountryFinder.country(self)
     end
 
   private

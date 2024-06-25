@@ -77,27 +77,7 @@ describe UKPostcode::GiroPostcode do
     end
   end
 
-  describe "#full?" do
-    it "is true" do
-      expect(subject).to be_full
-    end
-  end
-
-  describe "#valid?" do
-    it "is true" do
-      expect(subject).to be_valid
-    end
-  end
-
-  describe "#full_valid?" do
-    it "is true" do
-      expect(subject).to be_full_valid
-    end
-  end
-
-  describe "#country" do
-    it "is England" do
-      expect(subject.country).to eq(:england)
-    end
-  end
+  it { is_expected.to be_full }
+  it { is_expected.to be_valid }
+  it { is_expected.to be_full_valid }
 end

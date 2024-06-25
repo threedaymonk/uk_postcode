@@ -52,27 +52,7 @@ describe UKPostcode::InvalidPostcode do
     end
   end
 
-  describe "#full?" do
-    it "is false" do
-      expect(subject).not_to be_full
-    end
-  end
-
-  describe "#valid?" do
-    it "is false" do
-      expect(subject).not_to be_valid
-    end
-  end
-
-  describe "#full_valid?" do
-    it "is false" do
-      expect(subject).not_to be_full_valid
-    end
-  end
-
-  describe "#country" do
-    it "is unknown" do
-      expect(subject.country).to eq(:unknown)
-    end
-  end
+  it { is_expected.not_to be_full }
+  it { is_expected.not_to be_valid }
+  it { is_expected.not_to be_full_valid }
 end

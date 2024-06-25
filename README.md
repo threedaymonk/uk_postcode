@@ -11,7 +11,6 @@ Features:
 * Allows extraction of fields within postcode.
 * Validated against 2.5 million postcodes in England, Wales, Scotland, Northern
   Ireland, the Channel Islands, and the Isle of Man.
-* Finds the country corresponding to a postcode, where possible.
 
 **Note**: There's a distinction between validity and existence. This library
 validates the *format* of a postcode, but not whether it actually currently
@@ -80,24 +79,6 @@ pc.unit        # => "AA
 pc.to_s        # => "W1A 0AA"
 ```
 
-Find the country of a full or partial postcode (if possible: some outcodes span
-countries):
-
-```ruby
-UKPostcode.parse("W1A 1AA").country # => :england
-UKPostcode.parse("BT4").country # => :northern_ireland
-UKPostcode.parse("CA6").country # => :unknown
-UKPostcode.parse("CA6 5HS").country # => :scotland
-UKPostcode.parse("CA6 5HT").country # => :england
-```
-
-The country returned for a postcode is derived from the [ONS Postcode
-Directory][onspd] and might not always be correct in a border region:
-
-> Users should note that postcodes that straddle two geographic areas will be
-> assigned to the area where the mean grid reference of all the addresses
-> within the postcode falls.
-
 Invalid postcodes:
 
 ```ruby
@@ -107,7 +88,6 @@ pc.full?       # => false
 pc.full_valid? # => false
 pc.area        # => nil
 pc.to_s        # => "Not valid"
-pc.country     # => :unknown
 ```
 
 ## Tips for Rails
@@ -208,8 +188,8 @@ the supplied text via each parser in turn.
 The `UKPostcode.parse` method is effectively a thin wrapper that does this:
 
 ```ruby
-chain = ParserChain.new(GiroPostcode, GeographicPostcode, InvalidPostcode)
-chain.parse(str)
+ParserChain.new(GiroPostcode, GeographicPostcode, InvalidPostcode)
+  .parse(str)
 ```
 
 Each class passed to `ParserChain.new` must implement a class method
@@ -228,23 +208,6 @@ methods, and instantiate your own `ParserChain`.
 You may use this library according to the terms of the MIT License; see
 COPYING.txt for details.
 
-The regular expressions in `country_lookup.rb` are derived from the ONS
-Postcode Directory according to the terms of the
-[Open Government Licence][onspd-lic].
-
-> Under the terms of the Open Government Licence (OGL) […] anyone wishing to
-> use or re-use ONS material, whether commercially or privately, may do so
-> freely without a specific application for a licence, subject to the
-> conditions of the OGL and the Framework. Users reproducing ONS content must
-> include a source accreditation to ONS.
-
-In order to avoid the restrictive commercial terms of the Northern Ireland
-data in the ONSPD, this is not used to generate the regular expressions.
-Fortunately, Northern Ireland postcodes are very simple: they all start with
-`BT`!
-
 [bfpo]: https://www.gov.uk/government/publications/british-forces-post-office-locations
 [mys]: http://parlvid.mysociety.org/os/
-[onspd]: http://www.ons.gov.uk/ons/guide-method/geography/products/postcode-directories/-nspp-/index.html
-[onspd-lic]: http://www.ons.gov.uk/ons/guide-method/geography/beginner-s-guide/licences/index.html
 [santa]: http://services.royalmail.com/santa-schools
